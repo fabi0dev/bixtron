@@ -55,6 +55,10 @@ export const shapeReactions = {
       "#ContentChests"
     ) as HTMLInputElement;
 
+    const documentHeight = document.body.clientHeight;
+    const floorDefault =
+      documentHeight - bixtronConfig.floorPosition - contentShape.clientHeight;
+
     let timeout = setTimeout(() => {});
 
     let mousePos = {
@@ -66,6 +70,8 @@ export const shapeReactions = {
       left: 0,
       top: 0,
     };
+
+    let timePlayBody = setTimeout(() => {});
 
     const dragMouseDown = function (e) {
       e.preventDefault();
@@ -89,17 +95,28 @@ export const shapeReactions = {
       initialPos.left = e.clientX;
       initialPos.top = e.clientY;
 
-      if (mousePos.left > 0) {
-        //esquerda
-        ContentChests.style.transform = "rotate(-10deg) translateY(59px)";
+      let newTop = contentShape.offsetTop - mousePos.top;
+
+      if (newTop > floorDefault) {
+        newTop = floorDefault;
       } else {
-        //direita
-        ContentChests.style.transform = `rotateZ(10deg)`;
+        clearTimeout(timePlayBody);
+        if (mousePos.left > 0) {
+          //esquerda
+          timePlayBody = setTimeout(() => {
+            ContentChests.style.transform = "rotate(-10deg) translateY(59px)";
+          }, 10);
+        } else {
+          //direita
+          timePlayBody = setTimeout(() => {
+            ContentChests.style.transform = `rotateZ(10deg)`;
+          }, 10);
+        }
       }
 
       contentShape.style.left = contentShape.offsetLeft - mousePos.left + "px";
 
-      contentShape.style.top = contentShape.offsetTop - mousePos.top + "px";
+      contentShape.style.top = `${newTop}px`;
 
       clearTimeout(timeout);
       timeout = setTimeout(() => {
