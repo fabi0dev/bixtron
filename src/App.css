@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body{
-  background-color: black;
+  background-color: #3d434b;
   display: flex;
   justify-content: center;
   align-items: center;

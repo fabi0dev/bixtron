@@ -1,3 +1,3 @@
-import { Normal } from "./Normal/Normal";
+import { Normal } from "./Body/Normal/Normal";
 
 export { Normal };
