@@ -1,3 +1,5 @@
-import { ContentShape } from "./ContentShape/ContentShape";
+import { ContentShape } from "./ContentShape";
+import { ContentChests } from "./ContentChests";
+import { ContentHead } from "./ContentHead";
 
-export { ContentShape };
+export { ContentShape, ContentChests, ContentHead };

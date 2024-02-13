@@ -1,10 +1,9 @@
 #content-shape{
-  justify-content: center;
   animation: contentShape .5s infinite alternate;
+  position: absolute;
 }
 #content-robot{
   animation: contentRobot 1s infinite alternate; 
-  transform: translateY(20);
 }
 
 #content-shadow{
