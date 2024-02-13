@@ -1,14 +1,60 @@
+import { bixtronConfig } from "../bixtronconfig";
+
 export const shapeReactions = {
   init: () => {
     console.log("iniciou");
+    shapeReactions.setConfigs();
     shapeReactions.setMoveByHead();
   },
-  effectGravity: () => {},
+
+  setConfigs: () => {
+    const contentShape = document.querySelector(
+      "#content-shape"
+    ) as HTMLInputElement;
+    const documentHeight = document.body.clientHeight;
+
+    //definindo o chão dele, não pode descer mais que isso
+    contentShape.style.top = `${
+      documentHeight - bixtronConfig.floorPosition - contentShape.clientHeight
+    }px`;
+  },
+  effectGravity: () => {
+    const contentShape = document.querySelector(
+      "#content-shape"
+    ) as HTMLInputElement;
+
+    const documentHeight = document.body.clientHeight;
+    const contentRobotPos = contentShape.getBoundingClientRect();
+    const floorDefault =
+      documentHeight - bixtronConfig.floorPosition - contentShape.clientHeight;
+
+    let newFloor = contentRobotPos.y + bixtronConfig.gravity;
+
+    if (contentRobotPos.y <= floorDefault) {
+      contentShape.style.top = `${newFloor}px`;
+    } else {
+      if (newFloor > floorDefault) {
+        newFloor = floorDefault;
+      }
+
+      contentShape.style.top = `${newFloor}px`;
+
+      return;
+    }
+
+    setTimeout(shapeReactions.effectGravity, 0);
+  },
   //arrastar corpo pela cabeça
   setMoveByHead: () => {
-    const head = document.querySelector("#head");
-    const contentShape = document.querySelector("#content-shape");
-    const ContentChests = document.querySelector("#ContentChests");
+    const head = document.querySelector("#head") as HTMLInputElement;
+
+    const contentShape = document.querySelector(
+      "#content-shape"
+    ) as HTMLInputElement;
+    const ContentChests = document.querySelector(
+      "#ContentChests"
+    ) as HTMLInputElement;
+
     let timeout = setTimeout(() => {});
 
     let mousePos = {
@@ -21,21 +67,11 @@ export const shapeReactions = {
       top: 0,
     };
 
-    let initialPosFixed = {
-      left: 0,
-      top: 0,
-    };
-
     const dragMouseDown = function (e) {
       e.preventDefault();
       // get the mouse cursor position at startup:
       initialPos.left = e.clientX;
       initialPos.top = e.clientY;
-
-      initialPosFixed = {
-        left: e.clientX,
-        top: e.clientY,
-      };
 
       document.onmouseup = closeDragElement;
       // call a function whenever the cursor moves:
@@ -75,6 +111,11 @@ export const shapeReactions = {
       // stop moving when mouse button is released:
       document.onmouseup = null;
       document.onmousemove = null;
+
+      setTimeout(() => {
+        console.log("finalizou");
+        shapeReactions.effectGravity();
+      }, 100);
     };
 
     head.onmousedown = dragMouseDown;
