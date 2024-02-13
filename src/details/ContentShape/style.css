@@ -1,0 +1,34 @@
+#content-shape{
+  justify-content: center;
+  animation: contentShape .5s infinite alternate;
+}
+#content-robot{
+  animation: contentRobot 1s infinite alternate; 
+  transform: translateY(20);
+}
+
+#content-shadow{
+  background-color: #222;
+  border-radius: 100%;
+  height: 50px;
+  width: 170px;
+  animation: contentShadow 1s infinite alternate; 
+  margin: auto;
+  filter: blur(11px);
+}
+
+@keyframes contentRobot {
+  100% {
+    transform: translateY(2%);
+  }
+}  
+
+@keyframes contentShadow {
+  0% {
+    width: 140px;
+  }
+
+  100% {
+    width: 170px;
+  }
+}  
