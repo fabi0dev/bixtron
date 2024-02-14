@@ -16,3 +16,15 @@ body{
   margin: 0;
 }
 
+
+.text-interact{
+  cursor: default;
+  transition: all .1s ease-out;
+  background-color: rgba(0, 0, 0, .4);
+  backdrop-filter: blur(10px);
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 10px;
+  position: absolute;
+  max-width: 20vh;
+}

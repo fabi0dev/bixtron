@@ -24,8 +24,6 @@ function App() {
         <ContentShape>
           <Initial />
         </ContentShape>
-
-        <h1 className="text-red-300">Hello world!</h1>
       </div>
     </>
   );

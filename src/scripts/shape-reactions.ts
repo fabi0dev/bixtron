@@ -1,11 +1,15 @@
 import { bixtronConfig } from "../bixtronconfig";
+import { aux } from "../scripts/aux-actions";
+import { audioEffects } from "./audio-effects";
 
 export const shapeReactions = {
   init: () => {
     shapeReactions.setConfigs();
     shapeReactions.setMoveByHead();
-  },
+    audioEffects.init();
 
+    aux.setTextInteract("Olá");
+  },
   setConfigs: () => {
     const contentShape = document.querySelector(
       "#content-shape"
@@ -17,6 +21,7 @@ export const shapeReactions = {
       documentHeight - bixtronConfig.floorPosition - contentShape.clientHeight
     }px`;
   },
+  //efeito gravidade
   effectGravity: () => {
     const contentShape = document.querySelector(
       "#content-shape"
@@ -81,6 +86,7 @@ export const shapeReactions = {
       document.onmouseup = closeDragElement;
       // call a function whenever the cursor moves:
       document.onmousemove = elementDrag;
+      audioEffects.set(["05", "06"], true);
     };
 
     const elementDrag = function (e) {
@@ -129,7 +135,6 @@ export const shapeReactions = {
       document.onmousemove = null;
 
       setTimeout(() => {
-        console.log("finalizou");
         shapeReactions.effectGravity();
       }, 100);
     };
