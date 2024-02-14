@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  color: #eee;
+}
+
 body{
   background-color: #3d434b;
   display: flex;

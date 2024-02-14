@@ -2,7 +2,6 @@ import { bixtronConfig } from "../bixtronconfig";
 
 export const shapeReactions = {
   init: () => {
-    console.log("iniciou");
     shapeReactions.setConfigs();
     shapeReactions.setMoveByHead();
   },
