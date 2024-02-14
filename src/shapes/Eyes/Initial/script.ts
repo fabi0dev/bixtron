@@ -1,6 +1,7 @@
 import { fn } from "../../../helpers/functions";
+import { aux } from "../../../scripts/aux-actions";
 
-window.onload = function () {
+export const toAccompanyMouse = () => {
   //parte de fechar os olhos
   const initialOpenEyes = 4;
 
@@ -25,8 +26,8 @@ window.onload = function () {
   //--
 
   window.addEventListener("mousemove", function (e) {
-    const contentShape = document.querySelector("#content-shape");
-    const contentEyes = document.querySelector("#content-eyes");
+    const contentShape = aux.getElement("#content-shape");
+    const contentEyes = aux.getElement("#content-eyes");
     const headBounding = contentShape.getBoundingClientRect();
     const minDistance = 100;
     const maxDistance = 150;

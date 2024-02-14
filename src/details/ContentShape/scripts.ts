@@ -2,7 +2,7 @@ import { bixtronConfig } from "../../bixtronconfig";
 import { aux } from "../../scripts/aux-actions";
 
 //cuida somente da sombra
-window.addEventListener("load", () => {
+export const initShadow = () => {
   const contentShape = aux.getElement("#content-shape");
   const defaultHeight = 25;
 
@@ -42,4 +42,4 @@ window.addEventListener("load", () => {
       }px`;
     }
   }, 1);
-});
+};

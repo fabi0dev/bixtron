@@ -1,5 +1,4 @@
 import { fn } from "../helpers/functions";
-import audio from "./../assets/audios/success.mp3";
 
 export const aux = {
   getElement: (el: string): HTMLInputElement => {

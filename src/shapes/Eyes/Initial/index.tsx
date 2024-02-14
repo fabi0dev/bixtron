@@ -1,7 +1,16 @@
 import "./style.scss";
-import "./script";
+import { toAccompanyMouse } from "./script";
+import { useCallback, useEffect } from "react";
 
 export const Initial = () => {
+  const events = useCallback(() => {
+    toAccompanyMouse();
+  }, []);
+
+  useEffect(() => {
+    events();
+  }, [events]);
+
   return (
     <>
       <g id="content-eyes">

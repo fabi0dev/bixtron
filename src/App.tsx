@@ -1,30 +1,34 @@
 import { ContentShape } from "./details";
 import { Initial } from "./shapes/Body";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { shapeReactions } from "./scripts/shape-reactions";
 import "./index.css";
+import { Provider } from "react-redux";
+import { persistor, store } from "./store/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 function App() {
-  const initApp = useRef(false);
-  useEffect(() => {
-    if (initApp.current == true) {
-      return;
-    }
-
-    if (initApp.current == false) {
+  const events = useCallback(() => {
+    setTimeout(() => {
       shapeReactions.init();
-      initApp.current = true;
-    }
-    return () => {};
+    }, 100);
   }, []);
+
+  useEffect(() => {
+    events();
+  }, [events]);
 
   return (
     <>
-      <div id="robo-container">
-        <ContentShape>
-          <Initial />
-        </ContentShape>
-      </div>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <div id="robo-container">
+            <ContentShape>
+              <Initial />
+            </ContentShape>
+          </div>
+        </PersistGate>
+      </Provider>
     </>
   );
 }

@@ -50,7 +50,6 @@ export const shapeReactions = {
   //arrastar corpo pela cabeça
   setMoveByHead: () => {
     const head = document.querySelector("#head") as HTMLInputElement;
-    const contentShadow = aux.getElement("#content-shadow");
 
     const contentShape = aux.getElement("#content-shape");
     const ContentChests = aux.getElement("#ContentChests");
