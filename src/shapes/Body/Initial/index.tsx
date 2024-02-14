@@ -7,7 +7,7 @@ import { ContentChests, ContentHead } from "../../../details";
 export const Initial = () => {
   return (
     <>
-      <svg viewBox="13 -4 500 500" width="100%" height="100%">
+      <svg viewBox="0 -4 500 500" width="100%" height="100%">
         <defs>
           <linearGradient id="shape-gradient" x2="1" y2="1">
             <stop offset="0%" stopColor="var(--color-stop)" />

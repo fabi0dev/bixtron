@@ -1,4 +1,5 @@
 import "./style.css";
+import "./scripts";
 
 interface IContentShape {
   children: React.ReactElement;

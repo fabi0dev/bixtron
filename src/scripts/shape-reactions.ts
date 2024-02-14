@@ -7,7 +7,6 @@ export const shapeReactions = {
     shapeReactions.setConfigs();
     shapeReactions.setMoveByHead();
     audioEffects.init();
-
     aux.setTextInteract("Olá");
   },
   setConfigs: () => {
@@ -51,13 +50,10 @@ export const shapeReactions = {
   //arrastar corpo pela cabeça
   setMoveByHead: () => {
     const head = document.querySelector("#head") as HTMLInputElement;
+    const contentShadow = aux.getElement("#content-shadow");
 
-    const contentShape = document.querySelector(
-      "#content-shape"
-    ) as HTMLInputElement;
-    const ContentChests = document.querySelector(
-      "#ContentChests"
-    ) as HTMLInputElement;
+    const contentShape = aux.getElement("#content-shape");
+    const ContentChests = aux.getElement("#ContentChests");
 
     const documentHeight = document.body.clientHeight;
     const floorDefault =
@@ -120,7 +116,12 @@ export const shapeReactions = {
       }
 
       contentShape.style.left = contentShape.offsetLeft - mousePos.left + "px";
-
+      /* contentShadow.style.left = `${
+        contentShape.offsetLeft -
+        mousePos.left +
+        contentShape.getBoundingClientRect().width / 2
+      }px`;
+ */
       contentShape.style.top = `${newTop}px`;
 
       clearTimeout(timeout);
