@@ -48,13 +48,19 @@ export const shapeReactions = {
         const percentLastDistance = 100 - (lastTopPos * 100) / floorDefault;
 
         if (percentLastDistance > 50 && percentLastDistance < 100) {
-          store.dispatch(setEye("Anger"));
-          audioEffects.set("anger");
+          setTimeout(() => {
+            store.dispatch(setEye("Dizzy"));
+            setTimeout(() => {
+              store.dispatch(setEye("Anger"));
+              audioEffects.set("anger");
+            }, 1000);
+          }, 100);
+
           console.log(percentLastDistance);
 
           setTimeout(() => {
             store.dispatch(setEye("Initial"));
-          }, 1800);
+          }, 2200);
           fn.execRandom(() => {});
         }
 

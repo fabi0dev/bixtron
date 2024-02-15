@@ -1,23 +1,27 @@
 #anger-eyes{
   transition: all .2s ease-out;
   transform: translateY(26px) translateX(139px);
-  animation: eyeColor 1s infinite alternate; 
+  animation: angerEye 1s infinite alternate; 
 }
 
-@keyframes eyeColor {
+@keyframes angerEye {
   10% {
-    transform: translateY(22px) translateX(149px);
-  }
-  
-  20% {
     transform: translateY(26px) translateX(129px);
   }
 
-  30% {
+  20% {
     transform: translateY(26px) translateX(139px);
   }
 
-  100% {
+  30% {
+    transform: translateY(26px) translateX(129px);
+  }
+
+  40% {
+    transform: translateY(26px) translateX(139px);
+  }
+
+  50% {
     transform: translateY(26px) translateX(129px);
   }
   

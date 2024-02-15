@@ -16,7 +16,7 @@ export const Initial = () => {
 
   return (
     <>
-      <button onClick={() => dispatch(setEye("Bored"))}>Novos olhos</button>
+      {/* <button onClick={() => dispatch(setEye("Dizzy"))}>Novos olhos</button> */}
       <svg viewBox="0 -4 500 500" width="100%" height="100%">
         <svg>
           <defs>
