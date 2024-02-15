@@ -9,7 +9,3 @@
  /*  filter: drop-shadow(0px -3px  1px rgba(57, 194, 248, 0.2)); */
   transition: all 1s ease-out;
 }
-#shape-gradient {
-  --color-stop: #1D2123;
-  --color-bot: #000;
-}

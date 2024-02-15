@@ -22,9 +22,11 @@ body{
   transition: all .1s ease-out;
   background-color: rgba(0, 0, 0, .4);
   backdrop-filter: blur(10px);
-  border-radius: 5px;
-  font-size: 14px;
+  border-radius: 30px;
+  font-size: 13px;
   padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
   position: absolute;
   max-width: 20vh;
 }

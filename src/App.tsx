@@ -1,11 +1,11 @@
 import { ContentShape } from "./details";
-import { Initial } from "./shapes/Body";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { shapeReactions } from "./scripts/shape-reactions";
-import "./index.css";
+import "./index.scss";
 import { Provider } from "react-redux";
 import { persistor, store } from "./store/store";
 import { PersistGate } from "redux-persist/integration/react";
+import { Initial } from "./shapes/Body";
 
 function App() {
   const events = useCallback(() => {
@@ -24,7 +24,7 @@ function App() {
         <PersistGate loading={null} persistor={persistor}>
           <div id="robo-container">
             <ContentShape>
-              <Initial />
+              <Initial eyes="Happy" />
             </ContentShape>
           </div>
         </PersistGate>

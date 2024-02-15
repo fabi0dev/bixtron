@@ -69,9 +69,8 @@ export const toAccompanyMouse = () => {
       }
     }
 
-    /*  console.log("page", pagePos);
-    console.log("shape", contentShapePos); */
-
-    contentEyes.style.transform = `translateY(${translateEyes.y}px) translateX(${translateEyes.x}px)`;
+    if (contentEyes != null) {
+      contentEyes.style.transform = `translateY(${translateEyes.y}px) translateX(${translateEyes.x}px)`;
+    }
   });
 };

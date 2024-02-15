@@ -7,7 +7,10 @@ export const aux = {
   textInteractCurrent: 1,
   textInteractCount: 0,
   textInteractActive: false,
-  setTextInteract: (text: string) => {
+  setTextInteract: (text: string | Array<string>, callback = () => {}) => {
+    if (text.constructor == Array) {
+      text = text[fn.randomInt(0, text.length)];
+    }
     aux.textInteractCount += 1;
 
     const container = aux.getElement("#robo-container");
@@ -65,6 +68,8 @@ export const aux = {
               newCurrentInteract.style.setProperty("display", "");
             }
             aux.textInteractCurrent += 1;
+
+            callback();
           }, 100);
         }
       });

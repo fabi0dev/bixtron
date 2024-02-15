@@ -1,25 +1,46 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface IRobot {
-  data: [];
+  body: string;
+  heads: string;
+  chest: string;
+  eyes: string;
+  arms: string;
+  colors: {
+    eyes: string;
+    body1: string;
+    body2: string;
+  };
 }
 const initialState = {
-  data: {},
+  body: "Initial",
+  heads: "Initial",
+  chest: "Initial",
+  eyes: "Initial",
+  arms: "Initial",
+  colors: {
+    eyes: "#00dcff",
+    body1: "#1D2123",
+    body2: "#000",
+  },
 };
 
 export const slice = createSlice({
   name: "robot",
   initialState,
   reducers: {
-    setData: (state, { payload }) => {
+    setEye: (state, { payload }) => {
       return {
         ...state,
-        ...payload,
+        eyes: payload,
       };
+    },
+    resetRobot: () => {
+      return initialState;
     },
   },
 });
 
-export const { setData } = slice.actions;
+export const { setEye, resetRobot } = slice.actions;
 export default slice.reducer;
-export const selectorLatest = (state: { latest: IRobot }) => state.latest;
+export const selectorRobot = (state: { robot: IRobot }): IRobot => state.robot;

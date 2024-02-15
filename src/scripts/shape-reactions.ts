@@ -1,5 +1,8 @@
 import { bixtronConfig } from "../bixtronconfig";
+import { fn } from "../helpers/functions";
 import { aux } from "../scripts/aux-actions";
+import { setEye } from "../store/reducers/robot";
+import { store } from "../store/store";
 import { audioEffects } from "./audio-effects";
 
 export const shapeReactions = {
@@ -7,7 +10,10 @@ export const shapeReactions = {
     shapeReactions.setConfigs();
     shapeReactions.setMoveByHead();
     audioEffects.init();
-    aux.setTextInteract("Olá");
+    /*  store.dispatch(setEye("Happy"));
+    aux.setTextInteract("Olá", () => {
+      store.dispatch(setEye("Initial"));
+    }); */
   },
   setConfigs: () => {
     const contentShape = document.querySelector(
@@ -21,7 +27,7 @@ export const shapeReactions = {
     }px`;
   },
   //efeito gravidade
-  effectGravity: () => {
+  effectGravity: (lastTopPos: number) => {
     const contentShape = document.querySelector(
       "#content-shape"
     ) as HTMLInputElement;
@@ -36,21 +42,34 @@ export const shapeReactions = {
     if (contentRobotPos.y <= floorDefault) {
       contentShape.style.top = `${newFloor}px`;
     } else {
+      //chegou no chão
       if (newFloor > floorDefault) {
+        //se deixou cair ele fica bravo
+        const percentLastDistance = 100 - (lastTopPos * 100) / floorDefault;
+
+        if (percentLastDistance > 50 && percentLastDistance < 100) {
+          store.dispatch(setEye("Anger"));
+          audioEffects.set("anger");
+          console.log(percentLastDistance);
+
+          setTimeout(() => {
+            store.dispatch(setEye("Initial"));
+          }, 1800);
+          fn.execRandom(() => {});
+        }
+
         newFloor = floorDefault;
       }
 
       contentShape.style.top = `${newFloor}px`;
-
       return;
     }
 
-    setTimeout(shapeReactions.effectGravity, 0);
+    setTimeout(() => shapeReactions.effectGravity(lastTopPos), 0);
   },
   //arrastar corpo pela cabeça
   setMoveByHead: () => {
     const head = document.querySelector("#head") as HTMLInputElement;
-
     const contentShape = aux.getElement("#content-shape");
     const ContentChests = aux.getElement("#ContentChests");
 
@@ -84,7 +103,15 @@ export const shapeReactions = {
       audioEffects.set(["05", "06"], true);
     };
 
+    let isHighInterval = setTimeout(() => {}); //time da altura
+    let afraidInterval = setTimeout(() => {}); //time do medo
+    let lastTopPos = 0;
+    let wasAfraid = false; //se estiver com medo
+
     const elementDrag = function (e) {
+      clearTimeout(afraidInterval);
+      clearTimeout(isHighInterval);
+
       e.preventDefault();
 
       mousePos = {
@@ -94,8 +121,46 @@ export const shapeReactions = {
 
       initialPos.left = e.clientX;
       initialPos.top = e.clientY;
+      lastTopPos = initialPos.top;
 
       let newTop = contentShape.offsetTop - mousePos.top;
+      const percentDistance = 100 - (newTop * 100) / floorDefault;
+
+      if (percentDistance > 55) {
+        //se tiver alto ele fica com medo
+        isHighInterval = setTimeout(() => {
+          store.dispatch(setEye("Worried"));
+
+          setTimeout(() => {
+            const worriedEyes = aux.getElement("#worried-eyes");
+
+            if (worriedEyes !== null) {
+              wasAfraid = true;
+
+              worriedEyes.style.transform =
+                "translateX(165px) translateY(20px)";
+              audioEffects.set("01");
+            }
+          }, 600);
+        }, 500);
+      } else {
+        //se tiver com medo e colocou ele no chão, faz cara de aliviado
+        if (wasAfraid == true) {
+          //já está no chão, está seguro
+          if (percentDistance <= 5) {
+            store.dispatch(setEye("Happy"));
+            afraidInterval = setTimeout(() => {
+              aux.setTextInteract([
+                "Obrigado, por me por no chão!",
+                "O chão é bem melhor!",
+                "Tenho medo de altura kk",
+              ]);
+              store.dispatch(setEye("Initial"));
+              wasAfraid = false;
+            }, 1500);
+          }
+        }
+      }
 
       if (newTop > floorDefault) {
         newTop = floorDefault;
@@ -115,12 +180,6 @@ export const shapeReactions = {
       }
 
       contentShape.style.left = contentShape.offsetLeft - mousePos.left + "px";
-      /* contentShadow.style.left = `${
-        contentShape.offsetLeft -
-        mousePos.left +
-        contentShape.getBoundingClientRect().width / 2
-      }px`;
- */
       contentShape.style.top = `${newTop}px`;
 
       clearTimeout(timeout);
@@ -135,7 +194,7 @@ export const shapeReactions = {
       document.onmousemove = null;
 
       setTimeout(() => {
-        shapeReactions.effectGravity();
+        shapeReactions.effectGravity(lastTopPos);
       }, 100);
     };
 
