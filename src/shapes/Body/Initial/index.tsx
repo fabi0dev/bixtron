@@ -2,21 +2,22 @@ import * as Heads from "../../Heads";
 import * as Eyes from "../../Eyes";
 import * as Chests from "../../Chests";
 import * as Arms from "../../Arms";
-import "./style.css";
+import "./style.scss";
 import { ContentChests, ContentHead } from "../../../details";
 import { useDispatch, useSelector } from "react-redux";
-import { selectorRobot, setEye } from "../../../store/reducers/robot";
+import { selectorRobot, setArms, setEye } from "../../../store/reducers/robot";
 
 export const Initial = () => {
   const dispatch = useDispatch();
   const {
     eyes,
+    arms,
     colors: { body1, body2 },
   } = useSelector(selectorRobot);
 
   return (
     <>
-      {/* <button onClick={() => dispatch(setEye("Dizzy"))}>Novos olhos</button> */}
+      <button onClick={() => dispatch(setArms("Waving"))}>Novos olhos</button>
       <svg viewBox="0 -4 500 500" width="100%" height="100%">
         <svg>
           <defs>
@@ -41,7 +42,13 @@ export const Initial = () => {
             );
           })}
 
-          <Arms.Initial />
+          {Object.entries(Arms).map(([nameArms, Component], index) => {
+            return nameArms == arms ? (
+              <Component key={index} />
+            ) : (
+              <div key={index}></div>
+            );
+          })}
 
           <ContentChests>
             <Chests.Initial />

@@ -35,12 +35,18 @@ export const slice = createSlice({
         eyes: payload,
       };
     },
+    setArms: (state, { payload }) => {
+      return {
+        ...state,
+        arms: payload,
+      };
+    },
     resetRobot: () => {
       return initialState;
     },
   },
 });
 
-export const { setEye, resetRobot } = slice.actions;
+export const { setEye, setArms, resetRobot } = slice.actions;
 export default slice.reducer;
 export const selectorRobot = (state: { robot: IRobot }): IRobot => state.robot;
