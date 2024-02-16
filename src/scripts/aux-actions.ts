@@ -1,9 +1,61 @@
+import { Subscription, delay, of } from "rxjs";
 import { fn } from "../helpers/functions";
+import { store } from "../store/store";
+
+const getElement = (el: string): HTMLInputElement => {
+  return document.querySelector(el) as HTMLInputElement;
+};
+
+const getCore = () => {
+  return store.getState().bixtronCore;
+};
+
+const contentQueue = <Array<Subscription>>[];
+
+//fila de times
+const addQueue = (
+  fn: () => void,
+  time: number = 0,
+  priority: boolean = false
+) => {
+  if (priority) {
+    stopQueue();
+  }
+
+  const action = of(null).pipe(delay(time)).subscribe(fn);
+  contentQueue.push(action);
+  return action;
+};
+
+//cancela fila de times
+const stopQueue = () => {
+  of(...contentQueue).subscribe((action) => {
+    (action as Subscription).unsubscribe();
+  });
+};
+
+//para uma fila insolada ou customizada
+const createQueue = () => {
+  return {
+    list: <Array<Subscription>>[],
+    add: function (fn: () => void, time: number) {
+      const action = of(null).pipe(delay(time)).subscribe(fn);
+      this.list.push(action);
+    },
+    stop: function () {
+      of(...this.list).subscribe((action) => {
+        (action as Subscription).unsubscribe();
+      });
+    },
+  };
+};
+
+//para subscribe de time out
+const subsTime = (fn: () => void, time: number) => {
+  return of(null).pipe(delay(time)).subscribe(fn);
+};
 
 export const aux = {
-  getElement: (el: string): HTMLInputElement => {
-    return document.querySelector(el) as HTMLInputElement;
-  },
   textInteractCurrent: 1,
   textInteractCount: 0,
   textInteractActive: false,
@@ -13,10 +65,9 @@ export const aux = {
     }
     aux.textInteractCount += 1;
 
-    const container = aux.getElement("#robo-container");
-    const contentShapeBounding = aux
-      .getElement("#content-shape")
-      .getBoundingClientRect();
+    const container = getElement("#robo-container");
+    const contentShapeBounding =
+      getElement("#content-shape").getBoundingClientRect();
     const id = "textIn-" + aux.textInteractCount;
 
     container.insertAdjacentHTML(
@@ -24,7 +75,7 @@ export const aux = {
       `<div id="${id}" class="text-interact">${text}</div>`
     );
 
-    const interact = aux.getElement(`#${id}`);
+    const interact = getElement(`#${id}`);
     interact.setAttribute("number-interact", `${aux.textInteractCount}`);
 
     const pos = {
@@ -49,7 +100,7 @@ export const aux = {
       aux.textInteractActive = true;
 
       window.addEventListener("mousedown", () => {
-        const currentInteract = aux.getElement(
+        const currentInteract = getElement(
           `[number-interact="${aux.textInteractCurrent}"]`
         );
 
@@ -60,7 +111,7 @@ export const aux = {
             currentInteract.remove();
             currentInteract.style.setProperty("display", "none");
 
-            const newCurrentInteract = aux.getElement(
+            const newCurrentInteract = getElement(
               `[number-interact="${aux.textInteractCurrent + 1}"]`
             );
 
@@ -76,3 +127,5 @@ export const aux = {
     }
   },
 };
+
+export { getElement, getCore, addQueue, stopQueue, createQueue, subsTime };

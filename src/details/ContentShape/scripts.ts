@@ -1,13 +1,13 @@
 import { bixtronConfig } from "../../bixtronconfig";
-import { aux } from "../../scripts/aux-actions";
+import { getElement } from "../../scripts/aux-actions";
 
 //cuida somente da sombra
 export const initShadow = () => {
-  const contentShape = aux.getElement("#content-shape");
+  const contentShape = getElement("#content-shape");
   const defaultHeight = 25;
 
   setInterval(() => {
-    const contentShadow = aux.getElement("#content-shadow");
+    const contentShadow = getElement("#content-shadow");
     const contentShapePos = contentShape.getBoundingClientRect();
     const documentHeight = document.body.clientHeight;
     const floorDefault =

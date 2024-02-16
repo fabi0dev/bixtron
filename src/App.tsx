@@ -11,7 +11,7 @@ function App() {
   const events = useCallback(() => {
     setTimeout(() => {
       shapeReactions.init();
-    }, 100);
+    }, 200);
   }, []);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ function App() {
         <PersistGate loading={null} persistor={persistor}>
           <div id="robo-container">
             <ContentShape>
-              <Initial eyes="Happy" />
+              <Initial />
             </ContentShape>
           </div>
         </PersistGate>

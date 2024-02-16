@@ -1,23 +1,23 @@
 #arms-ToUp{
   #arm-left{
     transform: rotate(-13deg) translateX(100px) translateY(204px) rotateZ(351deg);
-    animation: armLeftUp .5s infinite alternate; 
+    animation: armLeftUp 1s infinite alternate; 
   }
 
   #arm-right{
     transform: rotate(13deg) translateX(422px) translateY(78px) rotateZ(7deg);
-    animation: armRightUp .5s infinite alternate; 
+    animation: armRightUp 1s infinite alternate; 
   }
 
   @keyframes armLeftUp {
-    50% {
-      transform: rotate(-13deg) translateX(100px) translateY(199px) rotateZ(351deg);
+    100% {
+      transform: rotate(-13deg) translateX(100px) translateY(210px) rotateZ(351deg);
     }
   }  
 
   @keyframes armRightUp {
-    50% {
-      transform: rotate(-13deg) translateX(100px) translateY(199px) rotateZ(351deg);
+    100% {
+      transform: rotate(13deg) translateX(422px) translateY(84px) rotateZ(7deg);
     }
   }  
   

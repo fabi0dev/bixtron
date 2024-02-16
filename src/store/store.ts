@@ -1,5 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import robot from "./reducers/robot";
+import bixtronCore from "./reducers/bixtronCore";
 import localforage from "localforage";
 import { persistReducer, persistStore } from "redux-persist";
 
@@ -11,6 +12,7 @@ const currencyPersistConfig = {
 
 const all = combineReducers({
   robot,
+  bixtronCore,
 });
 
 const reducers = persistReducer(currencyPersistConfig, all);

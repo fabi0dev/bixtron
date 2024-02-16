@@ -1,19 +1,37 @@
+import {
+  asyncScheduler,
+  concatMap,
+  delay,
+  from,
+  fromEvent,
+  interval,
+  map,
+  mapTo,
+  merge,
+  of,
+  scan,
+  startWith,
+  throttleTime,
+} from "rxjs";
 import { bixtronConfig } from "../bixtronconfig";
-import { fn } from "../helpers/functions";
-import { aux } from "../scripts/aux-actions";
-import { setEye } from "../store/reducers/robot";
+import { execRandom, fn } from "../helpers/functions";
+import {
+  addQueue,
+  createQueue,
+  getCore,
+  getElement,
+  subsTime,
+} from "../scripts/aux-actions";
+import { setArms, setEye } from "../store/reducers/robot";
 import { store } from "../store/store";
 import { audioEffects } from "./audio-effects";
+import { setCore } from "../store/reducers/bixtronCore";
 
 export const shapeReactions = {
   init: () => {
     shapeReactions.setConfigs();
     shapeReactions.setMoveByHead();
     audioEffects.init();
-    /*  store.dispatch(setEye("Happy"));
-    aux.setTextInteract("Olá", () => {
-      store.dispatch(setEye("Initial"));
-    }); */
   },
   setConfigs: () => {
     const contentShape = document.querySelector(
@@ -28,40 +46,49 @@ export const shapeReactions = {
   },
   //efeito gravidade
   effectGravity: (lastTopPos: number) => {
-    const contentShape = document.querySelector(
-      "#content-shape"
-    ) as HTMLInputElement;
+    const dispatch = store.dispatch;
+    const contentShape = getElement("#content-shape");
+    const contentRobotPos = contentShape.getBoundingClientRect();
 
     const documentHeight = document.body.clientHeight;
-    const contentRobotPos = contentShape.getBoundingClientRect();
     const floorDefault =
       documentHeight - bixtronConfig.floorPosition - contentShape.clientHeight;
+
+    const percentLastDistance = 100 - (lastTopPos * 100) / floorDefault;
 
     let newFloor = contentRobotPos.y + bixtronConfig.gravity;
 
     if (contentRobotPos.y <= floorDefault) {
       contentShape.style.top = `${newFloor}px`;
+      dispatch(setCore({ isFalling: true })); // está caindo
+
+      if (percentLastDistance > 50) {
+        store.dispatch(setArms("ToUp"));
+      }
     } else {
       //chegou no chão
       if (newFloor > floorDefault) {
-        //se deixou cair ele fica bravo
-        const percentLastDistance = 100 - (lastTopPos * 100) / floorDefault;
+        dispatch(
+          setCore({
+            isFalling: false, // não está mais caindo
+            isHigh: false, // não está mais no alto
+          })
+        );
+
+        dispatch(setArms("Initial")); //braços iniciais
+        dispatch(setEye("Initial")); //olhos iniciais
 
         if (percentLastDistance > 50 && percentLastDistance < 100) {
-          setTimeout(() => {
-            store.dispatch(setEye("Dizzy"));
-            setTimeout(() => {
-              store.dispatch(setEye("Anger"));
+          execRandom(() => {
+            addQueue(() => dispatch(setEye("Dizzy")), 100);
+            addQueue(() => dispatch(setEye("Initial")), 1000);
+            addQueue(() => {
+              //se deixou cair ele fica bravo
+              dispatch(setEye("Anger"));
               audioEffects.set("anger");
-            }, 1000);
-          }, 100);
-
-          console.log(percentLastDistance);
-
-          setTimeout(() => {
-            store.dispatch(setEye("Initial"));
-          }, 2200);
-          fn.execRandom(() => {});
+            }, 2000);
+            addQueue(() => dispatch(setEye("Initial")), 4000);
+          });
         }
 
         newFloor = floorDefault;
@@ -71,19 +98,21 @@ export const shapeReactions = {
       return;
     }
 
-    setTimeout(() => shapeReactions.effectGravity(lastTopPos), 0);
+    //fazendo ficar recursiva
+    of(null)
+      .pipe(delay(0))
+      .subscribe(() => shapeReactions.effectGravity(lastTopPos));
   },
   //arrastar corpo pela cabeça
   setMoveByHead: () => {
-    const head = document.querySelector("#head") as HTMLInputElement;
-    const contentShape = aux.getElement("#content-shape");
-    const ContentChests = aux.getElement("#ContentChests");
+    const contentShape = getElement("#content-shape");
+    const ContentChests = getElement("#ContentChests");
 
     const documentHeight = document.body.clientHeight;
     const floorDefault =
       documentHeight - bixtronConfig.floorPosition - contentShape.clientHeight;
 
-    let timeout = setTimeout(() => {});
+    const queueBody = createQueue();
 
     let mousePos = {
       left: 0,
@@ -95,115 +124,127 @@ export const shapeReactions = {
       top: 0,
     };
 
-    let timePlayBody = setTimeout(() => {});
-
-    const dragMouseDown = function (e) {
-      e.preventDefault();
-      // get the mouse cursor position at startup:
-      initialPos.left = e.clientX;
-      initialPos.top = e.clientY;
-
-      document.onmouseup = closeDragElement;
-      // call a function whenever the cursor moves:
-      document.onmousemove = elementDrag;
-      audioEffects.set(["05", "06"], true);
-    };
-
-    let isHighInterval = setTimeout(() => {}); //time da altura
-    let afraidInterval = setTimeout(() => {}); //time do medo
     let lastTopPos = 0;
-    let wasAfraid = false; //se estiver com medo
 
-    const elementDrag = function (e) {
-      clearTimeout(afraidInterval);
-      clearTimeout(isHighInterval);
+    fromEvent(getElement("#head"), "mousedown")
+      .pipe(map((e) => e))
+      .subscribe(function (e: MouseEvent) {
+        e.preventDefault();
 
-      e.preventDefault();
+        initialPos.left = e.clientX;
+        initialPos.top = e.clientY;
 
-      mousePos = {
-        left: initialPos.left - e.clientX,
-        top: initialPos.top - e.clientY,
-      };
+        //quando move
+        const mousemove = fromEvent(document, "mousemove")
+          .pipe(map((e) => e))
+          .subscribe(function (e: MouseEvent) {
+            e.preventDefault();
 
-      initialPos.left = e.clientX;
-      initialPos.top = e.clientY;
-      lastTopPos = initialPos.top;
+            mousePos = {
+              left: initialPos.left - e.clientX,
+              top: initialPos.top - e.clientY,
+            };
 
-      let newTop = contentShape.offsetTop - mousePos.top;
-      const percentDistance = 100 - (newTop * 100) / floorDefault;
+            initialPos.left = e.clientX;
+            initialPos.top = e.clientY;
+            lastTopPos = initialPos.top;
 
-      if (percentDistance > 55) {
-        //se tiver alto ele fica com medo
-        isHighInterval = setTimeout(() => {
-          store.dispatch(setEye("Worried"));
+            let newTop = contentShape.offsetTop - mousePos.top;
+            const percentDistance = 100 - (newTop * 100) / floorDefault;
 
-          setTimeout(() => {
-            const worriedEyes = aux.getElement("#worried-eyes");
+            //se tiver alto ele fica com medo
+            if (percentDistance > 55) {
+              store.dispatch(setCore({ isHigh: true })); //está no alto
+              addQueue(
+                () => {
+                  if (getCore().isHigh) {
+                    store.dispatch(setEye("Worried")); //olhos preocupados
+                    addQueue(() => {
+                      const worriedEyes = getElement("#worried-eyes"); //olhos de medo
 
-            if (worriedEyes !== null) {
-              wasAfraid = true;
+                      if (worriedEyes !== null) {
+                        store.dispatch(setCore({ isAfraid: true })); // está  com medo
+                        worriedEyes.style.transform =
+                          "translateX(165px) translateY(20px)";
+                        audioEffects.set(["01", "02"]);
+                      }
+                    }, 600);
+                  }
+                },
+                600,
+                true
+              );
+            } else {
+              //se tiver com medo e colocou ele no chão, faz cara de aliviado
+              if (getCore().isAfraid == true) {
+                //já está no chão, está seguro
+                if (percentDistance <= 5) {
+                  store.dispatch(setEye("Happy"));
+                  addQueue(
+                    () => {
+                      store.dispatch(setEye("Initial"));
+                    },
+                    1000,
+                    true
+                  );
+                }
 
-              worriedEyes.style.transform =
-                "translateX(165px) translateY(20px)";
-              audioEffects.set("01");
+                store.dispatch(setCore({ isAfraid: false })); //não está mais com medo
+              }
             }
-          }, 600);
-        }, 500);
-      } else {
-        //se tiver com medo e colocou ele no chão, faz cara de aliviado
-        if (wasAfraid == true) {
-          //já está no chão, está seguro
-          if (percentDistance <= 5) {
-            store.dispatch(setEye("Happy"));
-            afraidInterval = setTimeout(() => {
-              aux.setTextInteract([
-                "Obrigado, por me por no chão!",
-                "O chão é bem melhor!",
-                "Tenho medo de altura kk",
-              ]);
-              store.dispatch(setEye("Initial"));
-              wasAfraid = false;
-            }, 1500);
-          }
-        }
-      }
 
-      if (newTop > floorDefault) {
-        newTop = floorDefault;
-      } else {
-        clearTimeout(timePlayBody);
-        if (mousePos.left > 0) {
-          //esquerda
-          timePlayBody = setTimeout(() => {
-            ContentChests.style.transform = "rotate(-10deg) translateY(59px)";
-          }, 10);
-        } else {
-          //direita
-          timePlayBody = setTimeout(() => {
-            ContentChests.style.transform = `rotateZ(10deg)`;
-          }, 10);
-        }
-      }
+            if (newTop > floorDefault) {
+              newTop = floorDefault;
+            } else {
+              const bodyPlayLeft = subsTime(() => {
+                ContentChests.style.transform =
+                  "rotate(-10deg) translateY(59px)";
+              }, 20);
 
-      contentShape.style.left = contentShape.offsetLeft - mousePos.left + "px";
-      contentShape.style.top = `${newTop}px`;
+              const bodyPlayRight = subsTime(() => {
+                ContentChests.style.transform = `rotateZ(10deg)`;
+              }, 20);
 
-      clearTimeout(timeout);
-      timeout = setTimeout(() => {
-        ContentChests.style.transform = "";
-      }, 100);
-    };
+              //jogando o corpo para esquerda/direita quando arrasta
+              if (mousePos.left > 0) {
+                bodyPlayRight.unsubscribe();
+              } else {
+                bodyPlayLeft.unsubscribe();
+              }
+            }
 
-    const closeDragElement = () => {
-      // stop moving when mouse button is released:
-      document.onmouseup = null;
-      document.onmousemove = null;
+            //posição do corpo de acordo com o mouse
+            contentShape.style.left =
+              contentShape.offsetLeft - mousePos.left + "px";
+            contentShape.style.top = `${newTop}px`;
 
-      setTimeout(() => {
-        shapeReactions.effectGravity(lastTopPos);
-      }, 100);
-    };
+            //volta o corpo para normal
+            queueBody.stop();
+            queueBody.add(() => {
+              ContentChests.style.transform = "";
+            }, 200);
+          });
 
-    head.onmousedown = dragMouseDown;
+        //quando solta
+        const closeDrag = fromEvent(document, "mouseup").subscribe(() => {
+          closeDrag.unsubscribe();
+          mousemove.unsubscribe();
+        });
+
+        //ativa gravidade por que está no alto
+        const setGravity = fromEvent(document, "mouseup")
+          .pipe(throttleTime(100))
+          .subscribe(() => {
+            shapeReactions.effectGravity(lastTopPos);
+            setGravity.unsubscribe();
+          });
+
+        audioEffects.set(["05", "06"], true);
+      });
+
+    fromEvent(getElement("#head"), "click").subscribe(() => {
+      console.log("ok");
+    });
+    //end drag
   },
 };
