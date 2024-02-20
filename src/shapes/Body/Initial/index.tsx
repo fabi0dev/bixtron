@@ -17,8 +17,8 @@ export const Initial = () => {
 
   return (
     <>
-      {/* <button onClick={() => dispatch(setArms("ToUp"))}>Novos olhos</button> */}
-      <svg viewBox="0 -4 500 500" width="100%" height="100%">
+      {/* <button onClick={() => dispatch(setEye("Doubt"))}>Novos olhos</button> */}
+      <svg viewBox="0 -4 500 500" width="300" height="300">
         <svg>
           <defs>
             <linearGradient id="shape-gradient" x2="1" y2="1">

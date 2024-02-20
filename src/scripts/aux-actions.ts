@@ -128,4 +128,37 @@ export const aux = {
   },
 };
 
-export { getElement, getCore, addQueue, stopQueue, createQueue, subsTime };
+export const pauseAnimation = (elName: string) => {
+  getElement(elName).style.setProperty("animation-play-state", "paused");
+};
+
+export const playAnimation = (elName: string) => {
+  getElement(elName).style.setProperty("animation-play-state", "running");
+};
+
+const touchToMouse = (touchEvent: TouchEvent, mouseEvent: string) => {
+  try {
+    const [touch] = touchEvent.touches.length
+      ? touchEvent.touches
+      : touchEvent.changedTouches;
+
+    return new MouseEvent(mouseEvent, {
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      pageX: touch.pageX,
+      pageY: touch.pageY,
+    });
+  } catch (e) {
+    return touchEvent;
+  }
+};
+
+export {
+  getElement,
+  getCore,
+  addQueue,
+  stopQueue,
+  createQueue,
+  subsTime,
+  touchToMouse,
+};

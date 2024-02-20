@@ -1,5 +1,6 @@
+import { fromEvent, map, race } from "rxjs";
 import { fn } from "../../../helpers/functions";
-import { getElement } from "../../../scripts/aux-actions";
+import { getElement, touchToMouse } from "../../../scripts/aux-actions";
 
 export const toAccompanyMouse = () => {
   //parte de fechar os olhos
@@ -25,7 +26,12 @@ export const toAccompanyMouse = () => {
   closeEyes();
   //--
 
-  window.addEventListener("mousemove", function (e) {
+  race(
+    fromEvent(document, "mousemove"),
+    fromEvent(document, "touchmove").pipe(
+      map((e) => touchToMouse(e as TouchEvent, "touchmove"))
+    )
+  ).subscribe((e) => {
     const contentShape = getElement("#content-shape");
     const contentEyes = getElement("#content-eyes");
     const headBounding = contentShape.getBoundingClientRect();
@@ -37,6 +43,7 @@ export const toAccompanyMouse = () => {
       left: headBounding.left + minDistance,
       right: headBounding.right + minDistance,
       bottom: headBounding.bottom + minDistance,
+      height: headBounding.height,
     };
 
     const pagePos = {
@@ -59,6 +66,7 @@ export const toAccompanyMouse = () => {
       if (contentShapePos.top > pagePos.y) {
         translateEyes.y = 65;
       } else if (contentShapePos.bottom < pagePos.y) {
+        //se tiver abaixo do corpo
         translateEyes.y = 95;
       }
 
