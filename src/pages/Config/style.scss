@@ -1,0 +1,34 @@
+body{
+  background-color: #eee;
+  animation: BodyAppearance 1.5s reverse;
+}
+#container-config{
+  #robo-container{
+    min-width: 400px;
+  }
+  #config-appearance{
+    transition: all .5s ease-out;
+    position: relative;
+    animation: AnimConfigAppearance .5s reverse;
+    opacity: 1;
+  }
+  
+  #content-shape{
+    position: relative;
+  }
+}
+
+
+@keyframes BodyAppearance {
+  100% { 
+    background-color: #000;
+  }
+}
+
+@keyframes AnimConfigAppearance {
+  100% { 
+    margin-left: -50px; 
+    opacity: 0; 
+    filter: blur(10px); 
+  }
+}

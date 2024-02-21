@@ -132,6 +132,8 @@ export const shapeReactions = {
     };
 
     let lastTopPos = 0;
+    let lastLeftPos = 0;
+    let timeToLeft = of(null).pipe(delay(100)).subscribe();
 
     race(
       fromEvent(getElement("#head"), "mousedown"),
@@ -142,6 +144,10 @@ export const shapeReactions = {
         initialPos.left = e.clientX;
         initialPos.top = e.clientY;
 
+        if (lastLeftPos == 0) {
+          lastLeftPos = e.clientY;
+        }
+
         //quando move
         const mousemove = race(
           fromEvent(document, "mousemove"),
@@ -149,7 +155,12 @@ export const shapeReactions = {
             map((e) => touchToMouse(e as TouchEvent, "touchmove"))
           )
         ).subscribe(function (e: MouseEvent) {
-          e.preventDefault();
+          timeToLeft.unsubscribe();
+          timeToLeft = of(null)
+            .pipe(delay(100))
+            .subscribe(() => {
+              lastLeftPos = e.clientX;
+            });
 
           mousePos = {
             left: initialPos.left - e.clientX,
@@ -162,6 +173,7 @@ export const shapeReactions = {
 
           let newTop = contentShape.offsetTop - mousePos.top;
           let newLeft = contentShape.offsetLeft - mousePos.left;
+
           const percentDistance = 100 - (newTop * 100) / floorDefault;
 
           //se tiver alto ele fica com medo
@@ -211,26 +223,20 @@ export const shapeReactions = {
           if (newTop > floorDefault) {
             newTop = floorDefault;
           } else {
-            const bodyPlayLeft = subsTime(() => {
+            if (lastLeftPos - 80 > e.clientX) {
+              console.log("esquerda");
               ContentChests.style.transform = "rotate(-10deg) translateY(59px)";
-            }, 20);
-
-            const bodyPlayRight = subsTime(() => {
+            } else if (lastLeftPos + 80 < e.clientX) {
+              console.log("direita");
               ContentChests.style.transform = `rotateZ(10deg)`;
-            }, 20);
+            }
 
             //jogando o corpo para esquerda/direita quando arrasta
-            if (mousePos.left > 0) {
-              bodyPlayRight.unsubscribe();
-            } else {
-              bodyPlayLeft.unsubscribe();
-            }
           }
 
           newTop = newTop < 0 ? 0 : newTop;
-          newLeft = newLeft < 0 ? 0 : newLeft;
-          const maxLeft =
-            documentWidth - contentShape.getBoundingClientRect().width;
+          newLeft = newLeft < -150 ? -150 : newLeft;
+          const maxLeft = documentWidth - 200;
 
           if (newLeft > maxLeft) {
             newLeft = maxLeft;

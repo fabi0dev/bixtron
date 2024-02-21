@@ -5,7 +5,7 @@ import * as Arms from "../../Arms";
 import "./style.scss";
 import { ContentChests, ContentHead } from "../../../details";
 import { useDispatch, useSelector } from "react-redux";
-import { selectorRobot, setArms, setEye } from "../../../store/reducers/robot";
+import { selectorRobot } from "../../../store/reducers/robot";
 
 export const Initial = () => {
   const dispatch = useDispatch();
@@ -22,8 +22,7 @@ export const Initial = () => {
         <svg>
           <defs>
             <linearGradient id="shape-gradient" x2="1" y2="1">
-              <stop offset="0%" stopColor={body1} />
-              <stop offset="30%" stopColor={body1} />
+              <stop offset="40%" stopColor={body1} />
               <stop offset="100%" stopColor={body2} />
             </linearGradient>
           </defs>

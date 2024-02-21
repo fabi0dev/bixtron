@@ -6,8 +6,9 @@ import { selectorRobot } from "../../store/reducers/robot";
 
 interface IContentShape {
   children: React.ReactElement;
+  className?: string;
 }
-export const ContentShape = ({ children }: IContentShape) => {
+export const ContentShape = ({ children, ...props }: IContentShape) => {
   const events = useCallback(() => {
     initShadow();
   }, []);
@@ -18,7 +19,7 @@ export const ContentShape = ({ children }: IContentShape) => {
 
   return (
     <>
-      <div id="content-shape">
+      <div id="content-shape" {...props}>
         <div id="content-robot">{children}</div>
         <div id="content-shadow"></div>
       </div>

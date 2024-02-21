@@ -1,6 +1,7 @@
-import { Subscription, delay, of } from "rxjs";
+import { Subscription, delay, fromEvent, of, race } from "rxjs";
 import { fn } from "../helpers/functions";
 import { store } from "../store/store";
+import { audioEffects } from "./audio-effects";
 
 const getElement = (el: string): HTMLInputElement => {
   return document.querySelector(el) as HTMLInputElement;
@@ -55,28 +56,32 @@ const subsTime = (fn: () => void, time: number) => {
   return of(null).pipe(delay(time)).subscribe(fn);
 };
 
-export const aux = {
+const textInteract = {
   textInteractCurrent: 1,
   textInteractCount: 0,
   textInteractActive: false,
-  setTextInteract: (text: string | Array<string>, callback = () => {}) => {
+  set: (text: string | Array<string>, callback = () => {}) => {
     if (text.constructor == Array) {
       text = text[fn.randomInt(0, text.length)];
     }
-    aux.textInteractCount += 1;
+    textInteract.textInteractCount += 1;
 
     const container = getElement("#robo-container");
     const contentShapeBounding =
       getElement("#content-shape").getBoundingClientRect();
-    const id = "textIn-" + aux.textInteractCount;
+    const id = "textIn-" + textInteract.textInteractCount;
 
     container.insertAdjacentHTML(
       "beforeend",
       `<div id="${id}" class="text-interact">${text}</div>`
     );
+    audioEffects.set("02");
 
     const interact = getElement(`#${id}`);
-    interact.setAttribute("number-interact", `${aux.textInteractCount}`);
+    interact.setAttribute(
+      "number-interact",
+      `${textInteract.textInteractCount}`
+    );
 
     const pos = {
       left:
@@ -90,41 +95,34 @@ export const aux = {
     interact.style.cssText = `left: ${
       pos[fn.randomInt(1, 3) > 1 ? "right" : "left"]
     }px; top: ${pos.top}px; `;
-    interact.style.setProperty("display", "none");
 
-    if (aux.textInteractCount == aux.textInteractCurrent) {
-      interact.style.setProperty("display", "");
-    }
+    const eventRemove = race(
+      fromEvent(document, "mousedown"),
+      fromEvent(document, "touchstart")
+    ).subscribe(() => {
+      interact.style.filter = "blur(10px)";
 
-    if (!aux.textInteractActive) {
-      aux.textInteractActive = true;
+      setTimeout(() => {
+        interact.remove();
+        eventRemove.unsubscribe();
+
+        callback();
+      }, 100);
+    });
+
+    /*  if (!textInteract.textInteractActive) {
+      textInteract.textInteractActive = true;
 
       window.addEventListener("mousedown", () => {
         const currentInteract = getElement(
-          `[number-interact="${aux.textInteractCurrent}"]`
+          `[number-interact="${textInteract.textInteractCurrent}"]`
         );
 
         if (currentInteract !== null) {
-          currentInteract.style.filter = "blur(10px)";
-
-          setTimeout(() => {
-            currentInteract.remove();
-            currentInteract.style.setProperty("display", "none");
-
-            const newCurrentInteract = getElement(
-              `[number-interact="${aux.textInteractCurrent + 1}"]`
-            );
-
-            if (newCurrentInteract !== null) {
-              newCurrentInteract.style.setProperty("display", "");
-            }
-            aux.textInteractCurrent += 1;
-
-            callback();
-          }, 100);
+          
         }
       });
-    }
+    } */
   },
 };
 
@@ -161,4 +159,5 @@ export {
   createQueue,
   subsTime,
   touchToMouse,
+  textInteract,
 };

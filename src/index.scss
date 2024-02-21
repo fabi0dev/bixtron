@@ -3,16 +3,30 @@
 @tailwind utilities;
 
 * {
-  color: #eee;
+  color: #222;
 }
 
-body{
+/* body{
   background-color: #a7abb3;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
+  overflow: hidden;
+} */
+
+
+body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  height: calc(100vh + 1px);
+  border-top: 15vh solid #000;
+  border-bottom: 15vh solid #000;
+  overflow: hidden;
+  background-color: #eee;
 }
 
 
@@ -20,6 +34,7 @@ body{
   cursor: default;
   transition: all .1s ease-out;
   background-color: rgba(0, 0, 0, .4);
+  color: #eee;
   backdrop-filter: blur(10px);
   border-radius: 30px;
   font-size: 13px;
