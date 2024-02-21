@@ -25,6 +25,7 @@ export default function Config() {
   const [viewAppearance, setViewAppearance] = useState(false);
   const [configNumber, setConfigNumber] = useState(1);
   const [hsva, setHsva] = useState({ h: 214, s: 43, v: 90, a: 1 });
+  const { configured } = useSelector(selectorRobot);
 
   const {
     colors: { body1, body2 },
@@ -36,17 +37,31 @@ export default function Config() {
   };
 
   const events = useCallback(() => {
-    of(null)
-      .pipe(delay(500))
-      .subscribe(() => {
-        textInteract.set("Olá!", () => {
-          audioEffects.set("01");
+    if (!configured) {
+      of(null)
+        .pipe(delay(500))
+        .subscribe(() => {
+          textInteract.set("Olá!", () => {
+            audioEffects.set("01");
 
-          textInteract.set("Vamos escolher um visual?", () => {
-            setViewAppearance(true);
+            textInteract.set("Vamos escolher um visual?", () => {
+              setViewAppearance(true);
+            });
           });
         });
-      });
+    } else {
+      setViewAppearance(true);
+      textInteract.set(
+        [
+          "Me deixe bem estiloso!",
+          "Coloque uma cor vibrante em meus olhos!",
+          "Um visual dark cairia bem!",
+          "Deixe sua criatividade fluir!",
+        ],
+        () => {},
+        true
+      );
+    }
   }, [setViewAppearance]);
 
   useEffect(() => {

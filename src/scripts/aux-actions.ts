@@ -60,7 +60,11 @@ const textInteract = {
   textInteractCurrent: 1,
   textInteractCount: 0,
   textInteractActive: false,
-  set: (text: string | Array<string>, callback = () => {}) => {
+  set: (
+    text: string | Array<string>,
+    callback = () => {},
+    toLeft: boolean | null = null
+  ) => {
     if (text.constructor == Array) {
       text = text[fn.randomInt(0, text.length)];
     }
@@ -92,9 +96,15 @@ const textInteract = {
         contentShapeBounding.top - interact.getBoundingClientRect().height / 2,
     };
 
-    interact.style.cssText = `left: ${
-      pos[fn.randomInt(1, 3) > 1 ? "right" : "left"]
-    }px; top: ${pos.top}px; `;
+    let toLeftPos = "";
+
+    if (toLeft != null) {
+      toLeftPos = toLeft ? "left" : "right";
+    } else {
+      toLeftPos = pos[fn.randomInt(1, 3) > 1 ? "right" : "left"];
+    }
+
+    interact.style.cssText = `left: ${toLeftPos}px; top: ${pos.top}px; `;
 
     const eventRemove = race(
       fromEvent(document, "mousedown"),
@@ -109,20 +119,6 @@ const textInteract = {
         callback();
       }, 100);
     });
-
-    /*  if (!textInteract.textInteractActive) {
-      textInteract.textInteractActive = true;
-
-      window.addEventListener("mousedown", () => {
-        const currentInteract = getElement(
-          `[number-interact="${textInteract.textInteractCurrent}"]`
-        );
-
-        if (currentInteract !== null) {
-          
-        }
-      });
-    } */
   },
 };
 
@@ -151,6 +147,11 @@ const touchToMouse = (touchEvent: TouchEvent, mouseEvent: string) => {
   }
 };
 
+const pxToVh = (vh: number) => {
+  const windowHeight = window.screen.height;
+  return (vh * windowHeight) / 100;
+};
+
 export {
   getElement,
   getCore,
@@ -159,5 +160,6 @@ export {
   createQueue,
   subsTime,
   touchToMouse,
+  pxToVh,
   textInteract,
 };

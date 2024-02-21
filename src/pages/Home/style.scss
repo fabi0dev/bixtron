@@ -1,7 +1,26 @@
 
 #container-home{
   #content-shape{
+    position: absolute;    
+  }
+
+  #menu{
     position: absolute;
-    
+    right: 2vh;
+    top: 17vh;
+    animation: MenuAnimate .5s reverse;
+    .item{
+      transition: all .5s ease-out;
+    }
+    .item:hover{
+      scale: 120%;
+      cursor: pointer;
+    }
+  }
+}
+
+@keyframes MenuAnimate {
+  100% { 
+    right: 5vh;
   }
 }

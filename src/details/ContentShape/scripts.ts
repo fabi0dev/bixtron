@@ -1,17 +1,20 @@
+import { interval } from "rxjs";
 import { bixtronConfig } from "../../bixtronconfig";
-import { getElement } from "../../scripts/aux-actions";
+import { getElement, pxToVh } from "../../scripts/aux-actions";
 
 //cuida somente da sombra
 export const initShadow = () => {
   const contentShape = getElement("#content-shape");
   const defaultHeight = 25;
 
-  setInterval(() => {
+  return interval(1).subscribe(() => {
     const contentShadow = getElement("#content-shadow");
     const contentShapePos = contentShape.getBoundingClientRect();
-    const documentHeight = document.body.clientHeight;
+    const windowHeight = window.screen.height;
     const floorDefault =
-      documentHeight - bixtronConfig.floorPosition - contentShape.clientHeight;
+      windowHeight -
+      pxToVh(bixtronConfig.floorPosition) * 2 -
+      contentShape.clientHeight;
 
     const widthShadow = contentShapePos.width / 2;
     contentShadow.style.width = `${widthShadow}px`;
@@ -41,5 +44,5 @@ export const initShadow = () => {
         contentShapePos.y + contentShapePos.height
       }px`;
     }
-  }, 1);
+  });
 };

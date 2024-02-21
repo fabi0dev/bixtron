@@ -6,16 +6,6 @@
   color: #222;
 }
 
-/* body{
-  background-color: #a7abb3;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  overflow: hidden;
-} */
-
 
 body{
   display: flex;
@@ -32,15 +22,13 @@ body{
 
 .text-interact{
   cursor: default;
-  transition: all .1s ease-out;
-  background-color: rgba(0, 0, 0, .4);
-  color: #eee;
-  backdrop-filter: blur(10px);
-  border-radius: 30px;
+  transition: all 0.1s ease-out;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #444;
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
   font-size: 13px;
   padding: 10px;
-  padding-left: 20px;
-  padding-right: 20px;
   position: absolute;
   max-width: 20vh;
 }

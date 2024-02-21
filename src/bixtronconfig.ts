@@ -1,4 +1,4 @@
 export const bixtronConfig = {
-  floorPosition: 100,
+  floorPosition: 15, //vh
   gravity: 5,
 };

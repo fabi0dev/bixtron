@@ -1,21 +1,19 @@
-import { useSelector } from "react-redux";
 import { initShadow } from "./scripts";
 import "./style.css";
-import { useCallback, useEffect } from "react";
-import { selectorRobot } from "../../store/reducers/robot";
+import { useEffect } from "react";
 
 interface IContentShape {
   children: React.ReactElement;
   className?: string;
 }
 export const ContentShape = ({ children, ...props }: IContentShape) => {
-  const events = useCallback(() => {
-    initShadow();
-  }, []);
-
   useEffect(() => {
-    events();
-  }, [events]);
+    const shadow = initShadow();
+
+    return () => {
+      shadow.unsubscribe();
+    };
+  }, []);
 
   return (
     <>

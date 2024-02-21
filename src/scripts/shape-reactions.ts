@@ -8,7 +8,8 @@ import {
   getElement,
   pauseAnimation,
   playAnimation,
-  subsTime,
+  pxToVh,
+  textInteract,
   touchToMouse,
 } from "../scripts/aux-actions";
 import { setArms, setEye } from "../store/reducers/robot";
@@ -24,26 +25,23 @@ export const shapeReactions = {
     shapeReactions.setConfigs();
     shapeReactions.setMoveByHead();
 
-    /* dispatch(setEye("Happy"));
+    dispatch(setEye("Happy"));
     dispatch(setArms("Waving"));
+    textInteract.set(["Que bom te ver aqui!", "Olá!", "Oi!"]);
 
     const initForm = fromEvent(getElement("#content-shape"), "mousedown");
     initForm.subscribe(() => {
       addQueue(() => dispatch(setArms("Initial")), 100);
       initForm.subscribe();
-    }); */
+    });
   },
   setConfigs: () => {
     const contentShape = getElement("#content-shape");
-    const documentHeight = document.body.clientHeight;
+    const windowWidth = window.screen.width;
 
     //definindo o chão dele, não pode descer mais que isso
-    contentShape.style.top = `${
-      documentHeight - bixtronConfig.floorPosition - contentShape.clientHeight
-    }px`;
     contentShape.style.left = `${
-      contentShape.getBoundingClientRect().left -
-      contentShape.getBoundingClientRect().width / 2
+      windowWidth / 2 - contentShape.getBoundingClientRect().width / 2
     }px`;
   },
   //efeito gravidade
@@ -52,9 +50,11 @@ export const shapeReactions = {
     const contentShape = getElement("#content-shape");
     const contentRobotPos = contentShape.getBoundingClientRect();
 
-    const documentHeight = document.body.clientHeight;
+    const windowHeight = window.screen.height;
     const floorDefault =
-      documentHeight - bixtronConfig.floorPosition - contentShape.clientHeight;
+      windowHeight -
+      pxToVh(bixtronConfig.floorPosition) * 2 -
+      contentShape.clientHeight;
 
     const percentLastDistance = 100 - (lastTopPos * 100) / floorDefault;
 
@@ -114,10 +114,12 @@ export const shapeReactions = {
     const { dispatch } = store;
     const contentShape = getElement("#content-shape");
     const ContentChests = getElement("#ContentChests");
-    const documentHeight = document.body.clientHeight;
     const documentWidth = document.body.clientWidth;
+    const windowHeight = window.screen.height;
     const floorDefault =
-      documentHeight - bixtronConfig.floorPosition - contentShape.clientHeight;
+      windowHeight -
+      pxToVh(bixtronConfig.floorPosition) * 2 -
+      contentShape.clientHeight;
 
     const queueBody = createQueue();
 
@@ -223,18 +225,18 @@ export const shapeReactions = {
           if (newTop > floorDefault) {
             newTop = floorDefault;
           } else {
+            //jogando o corpo para esquerda/direita quando arrasta
             if (lastLeftPos - 80 > e.clientX) {
-              console.log("esquerda");
               ContentChests.style.transform = "rotate(-10deg) translateY(59px)";
             } else if (lastLeftPos + 80 < e.clientX) {
-              console.log("direita");
               ContentChests.style.transform = `rotateZ(10deg)`;
             }
-
-            //jogando o corpo para esquerda/direita quando arrasta
           }
 
-          newTop = newTop < 0 ? 0 : newTop;
+          newTop =
+            newTop < pxToVh(bixtronConfig.floorPosition)
+              ? pxToVh(bixtronConfig.floorPosition)
+              : newTop;
           newLeft = newLeft < -150 ? -150 : newLeft;
           const maxLeft = documentWidth - 200;
 
@@ -269,6 +271,7 @@ export const shapeReactions = {
         )
           .pipe(throttleTime(100))
           .subscribe(() => {
+            execRandom(() => audioEffects.set(["fear-01", "fear-02"]));
             shapeReactions.effectGravity(lastTopPos);
             setGravity.unsubscribe();
           });
