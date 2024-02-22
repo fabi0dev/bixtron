@@ -3,7 +3,7 @@
 Um projeto divertido de um robozinho animado desenvolvido com HTML, SVG, CSS, JavaScript. O robozinho é interativo e permite pequenas interações e retorna algumas expressões e sons. Além disso, é possível personalizar as cores do corpo e dos olhos para customizar o robozinho. Eu o criei para testar o [RxJS](https://rxjs.dev/guide/overview), que é uma biblioteca para programação reativa usando JavaScript. A programação reativa é um paradigma de programação assíncrona que se baseia na propagação de mudanças. Em vez de lidar com eventos isolados, a programação reativa permite que você trabalhe com sequências de eventos ao longo do tempo. Ou seja não precisei fazer um monte de `setTimeout`,`setInterval` ou `if's` quando se interage com o robô.
 
 <div>
-  <img alt="img-1" src="https://i.imgur.com/1UM4o4P.gif" />
+  <img alt="img-1" src="https://i.imgur.com/yixEMnK.gif" />
 </div>
 
 ## Funcionalidades
@@ -23,8 +23,8 @@ Um projeto divertido de um robozinho animado desenvolvido com HTML, SVG, CSS, Ja
 Para personalizar as cores, basta modificar as configurações que estão sempre disponíveis através do botão localizado a parte superior direita.
 
 <div>
-  <img alt="img-1" width="400px" height="350px" src="https://i.imgur.com/1pV05Xn.png" />
-  <img alt="img-1" width="400px" height="350px" src="https://i.imgur.com/fAGWFvv.png" />
+  <img alt="img-2" width="400px" height="350px" src="https://i.imgur.com/1pV05Xn.png" />
+  <img alt="img-3" width="400px" height="350px" src="https://i.imgur.com/fAGWFvv.png" />
 
 </div>
 
