@@ -37,7 +37,7 @@ export const shapeReactions = {
   },
   setConfigs: () => {
     const contentShape = getElement("#content-shape");
-    const windowWidth = window.screen.width;
+    const windowWidth = document.body.clientWidth;
 
     //definindo o chão dele, não pode descer mais que isso
     contentShape.style.left = `${
@@ -49,12 +49,7 @@ export const shapeReactions = {
     const dispatch = store.dispatch;
     const contentShape = getElement("#content-shape");
     const contentRobotPos = contentShape.getBoundingClientRect();
-
-    const windowHeight = window.screen.height;
-    const floorDefault =
-      windowHeight -
-      pxToVh(bixtronConfig.floorPosition) * 2 -
-      contentShape.clientHeight;
+    const floorDefault = document.body.clientHeight - pxToVh(17);
 
     const percentLastDistance = 100 - (lastTopPos * 100) / floorDefault;
 
@@ -115,11 +110,7 @@ export const shapeReactions = {
     const contentShape = getElement("#content-shape");
     const ContentChests = getElement("#ContentChests");
     const documentWidth = document.body.clientWidth;
-    const windowHeight = window.screen.height;
-    const floorDefault =
-      windowHeight -
-      pxToVh(bixtronConfig.floorPosition) * 2 -
-      contentShape.clientHeight;
+    const floorDefault = document.body.clientHeight - pxToVh(17);
 
     const queueBody = createQueue();
 
