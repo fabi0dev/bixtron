@@ -1,0 +1,24 @@
+#dizzy-eyes{
+  transition: all .2s ease-out;
+  transform: translateY(22px) translateX(150px);
+  animation: dizzyEyes 1s infinite alternate; 
+}
+
+@keyframes dizzyEyes {
+  10% {
+    transform: translateY(22px) translateX(155px);
+  }
+  
+  20% {
+    transform: translateY(22px) translateX(150px);
+  }
+
+  30% {
+    transform: translateY(22px) translateX(155px);
+  }
+
+  40% {
+    transform: translateY(22px) translateX(150px);
+  }
+  
+}  

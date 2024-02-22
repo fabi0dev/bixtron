@@ -1,0 +1,28 @@
+#anger-eyes{
+  transition: all .2s ease-out;
+  transform: translateY(26px) translateX(139px);
+  animation: angerEye 1s infinite alternate; 
+}
+
+@keyframes angerEye {
+  10% {
+    transform: translateY(26px) translateX(129px);
+  }
+
+  20% {
+    transform: translateY(26px) translateX(139px);
+  }
+
+  30% {
+    transform: translateY(26px) translateX(129px);
+  }
+
+  40% {
+    transform: translateY(26px) translateX(139px);
+  }
+
+  50% {
+    transform: translateY(26px) translateX(129px);
+  }
+  
+}  

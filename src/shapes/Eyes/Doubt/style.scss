@@ -1,0 +1,16 @@
+#doubt-eyes{
+  transition: all .2s ease-out;
+  transform: translateY(78px) translateX(2px);
+  
+  #doubt-eyes-left{
+    ry: 4%;
+    rx: 3%;
+    transition: all .2s ease-out;
+  }
+  #doubt-eyes-right{
+    ry: 4%;
+    rx: 3%;
+    transition: all .2s ease-out;
+  }
+  
+}

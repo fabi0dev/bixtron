@@ -1,0 +1,36 @@
+#arms-Waving{
+  #arm-left{
+    transform: rotate(17deg) translateX(218px) translateY(225px) rotateZ(351deg);
+    animation: armLeftWaving .9s infinite alternate; 
+  }
+
+  #arm-right{
+    transform: rotate(13deg) translateX(422px) translateY(78px) rotateZ(7deg);
+    animation: armRightWaving 2s infinite alternate; 
+  }
+}
+
+@keyframes armLeftWaving {
+  100% {
+    transform: rotate(17deg) translateX(218px) translateY(220px) rotateZ(351deg);
+  }
+}  
+
+@keyframes armRightWaving {
+  70% {
+    transform: rotate(13deg) translateX(420px) translateY(75px) rotateZ(5deg);
+  }
+
+  80% {
+    transform: rotate(13deg) translateX(415px) translateY(70px) rotateZ(-3deg);
+  }
+
+  90% {
+    transform: rotate(13deg) translateX(422px) translateY(78px) rotateZ(7deg);
+  }
+
+  100% {
+    transform: rotate(13deg) translateX(415px) translateY(70px) rotateZ(-3deg);
+  }
+  
+}  
