@@ -3,9 +3,9 @@ body{
   animation: BodyAppearance 1.5s reverse;
 }
 #container-config{
-  #robo-container{
+  /* #robo-container{
     min-width: 400px;
-  }
+  } */
   #config-appearance{
     transition: all .5s ease-out;
     position: relative;
@@ -17,6 +17,36 @@ body{
     position: relative;
     transition: all 1s ease-out;
   }
+
+  
+  @media (min-width: 640px) {
+    #container-colors{
+      display: grid;
+      grid-template-columns: 300px auto;
+    }
+  }
+  @media (max-width: 435px) {
+    #content-shape{
+      margin-bottom: 10px;
+    }
+    #svg-robot{
+      width: 200px;
+      height: 200px;
+      margin: auto;
+    }
+    #config-appearance{
+      #content-colors{
+        display: grid;
+        grid-template-columns: auto auto;
+
+        .w-color-compact{
+          width: 150px !important;
+        }
+      }
+
+    }
+  }
+
 }
 
 

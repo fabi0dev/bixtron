@@ -75,10 +75,12 @@ export default function Config() {
     <>
       <div id="container-config">
         <div id="robo-container">
-          <div className="grid grid-cols-[300px_auto]">
+          <div
+            id="container-colors" /* className="grid grid-cols-[300px_auto]" */
+          >
             <div>
               <ContentShape>
-                <Initial />
+                <Initial id="svg-robot" />
               </ContentShape>
             </div>
 
@@ -119,32 +121,36 @@ export default function Config() {
             {/* cor do corpo */}
             {viewAppearance && configNumber == 2 && (
               <div id="config-appearance">
-                <div className="font-bold font-sans text-xl">Cor do corpo</div>
-
-                <div className="font-sans text-xs mb-2">Predominante</div>
-                <div className="content-colors  mb-1">
-                  <Compact
-                    color={body1}
-                    style={{
-                      backgroundColor: "transparent",
-                    }}
-                    onChange={(color) => {
-                      dispatch(setBodyColor1(color.hex));
-                    }}
-                  />
+                <div className="font-bold font-sans text-xl mb-1">
+                  Cor do corpo
                 </div>
+                <div id="content-colors">
+                  <div className="content-colors">
+                    <div className="font-sans text-xs">Predominante</div>
 
-                <div className="font-sans text-xs mt-3 mb-2">Secundária</div>
-                <div className="content-colors  mb-1">
-                  <Compact
-                    color={body2}
-                    style={{
-                      backgroundColor: "transparent",
-                    }}
-                    onChange={(color) => {
-                      dispatch(setBodyColor2(color.hex));
-                    }}
-                  />
+                    <Compact
+                      color={body1}
+                      style={{
+                        backgroundColor: "transparent",
+                      }}
+                      onChange={(color) => {
+                        dispatch(setBodyColor1(color.hex));
+                      }}
+                    />
+                  </div>
+
+                  <div className="content-colors mb-1">
+                    <div className="font-sans text-xs">Secundária</div>
+                    <Compact
+                      color={body2}
+                      style={{
+                        backgroundColor: "transparent",
+                      }}
+                      onChange={(color) => {
+                        dispatch(setBodyColor2(color.hex));
+                      }}
+                    />
+                  </div>
                 </div>
 
                 <div className="flex justify-center gap-2">

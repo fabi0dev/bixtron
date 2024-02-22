@@ -4,11 +4,10 @@ import * as Chests from "../../Chests";
 import * as Arms from "../../Arms";
 import "./style.scss";
 import { ContentChests, ContentHead } from "../../../details";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectorRobot } from "../../../store/reducers/robot";
 
-export const Initial = () => {
-  const dispatch = useDispatch();
+export const Initial = ({ width = 300, height = 300, ...props }) => {
   const {
     eyes,
     arms,
@@ -17,8 +16,7 @@ export const Initial = () => {
 
   return (
     <>
-      {/* <button onClick={() => dispatch(setEye("Doubt"))}>Novos olhos</button> */}
-      <svg viewBox="0 -4 500 500" width="300" height="300">
+      <svg viewBox="0 -4 500 500" width={width} height={height} {...props}>
         <svg>
           <defs>
             <linearGradient id="shape-gradient" x2="1" y2="1">
