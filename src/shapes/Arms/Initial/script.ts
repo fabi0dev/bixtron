@@ -22,7 +22,8 @@ const interactArmRight = () => {
 
   race(fromEvent(armRight, "mousedown"), fromEvent(armRight, "touchstart"))
     .pipe(map((e) => touchToMouse(e as TouchEvent, "touchmove")))
-    .subscribe(function (e: MouseEvent) {
+    .subscribe((event) => {
+      const e = event as MouseEvent;
       initialPos.left = e.clientX;
       initialPos.top = e.clientY;
 
@@ -46,7 +47,8 @@ const interactArmRight = () => {
         fromEvent(document, "touchmove").pipe(
           map((e) => touchToMouse(e as TouchEvent, "touchmove"))
         )
-      ).subscribe(function (e: MouseEvent) {
+      ).subscribe((event) => {
+        const e = event as MouseEvent;
         //subindo
         const maxPosTop = {
           rotateZ: 150,
@@ -124,7 +126,8 @@ const interactArmLeft = () => {
 
   race(fromEvent(armLeft, "mousedown"), fromEvent(armLeft, "touchstart"))
     .pipe(map((e) => touchToMouse(e as TouchEvent, "touchmove")))
-    .subscribe(function (e: MouseEvent) {
+    .subscribe((event) => {
+      const e = event as MouseEvent;
       initialPos.left = e.clientX;
       initialPos.top = e.clientY;
 
@@ -148,7 +151,9 @@ const interactArmLeft = () => {
         fromEvent(document, "touchmove").pipe(
           map((e) => touchToMouse(e as TouchEvent, "touchmove"))
         )
-      ).subscribe(function (e: MouseEvent) {
+      ).subscribe(function (e) {
+        const event = e as MouseEvent;
+
         //subindo
         const maxPosTop = {
           rotateZ: 150,
@@ -156,7 +161,7 @@ const interactArmLeft = () => {
           translateY: 140,
         };
 
-        const distanceCur = initY - e.clientY;
+        const distanceCur = initY - event.clientY;
         let percentDistance = (distanceCur * 100) / armRightPos.height;
         percentDistance = percentDistance > 100 ? 100 : percentDistance;
 

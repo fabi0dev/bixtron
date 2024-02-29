@@ -10,21 +10,21 @@ export const toGrowEye = () => {
 
   addQueue(() => {
     audioEffects.set("machine-01");
-    eyesLeft.style.rx = "2%";
-    eyesLeft.style.ry = "3%";
+    eyesLeft.style.setProperty("rx", "2%");
+    eyesLeft.style.setProperty("ry", "3%");
 
-    eyesRight.style.rx = "5%";
-    eyesRight.style.ry = "6%";
+    eyesRight.style.setProperty("rx", "5%");
+    eyesRight.style.setProperty("ry", "6%");
   });
 
   addQueue(() => {
     audioEffects.set("machine-02");
 
-    eyesLeft.style.rx = "3%";
-    eyesLeft.style.ry = "4%";
+    eyesLeft.style.setProperty("rx", "3%");
+    eyesLeft.style.setProperty("ry", "4%");
 
-    eyesRight.style.rx = "3%";
-    eyesRight.style.ry = "4%";
+    eyesRight.style.setProperty("rx", "3%");
+    eyesRight.style.setProperty("ry", "4%");
 
     addQueue(() => dispatch(setEye("Initial")), 1000);
   }, 2200);

@@ -32,6 +32,7 @@ export const toAccompanyMouse = () => {
       map((e) => touchToMouse(e as TouchEvent, "touchmove"))
     )
   ).subscribe((e) => {
+    const event = e as MouseEvent;
     const contentShape = getElement("#content-shape");
     const contentEyes = getElement("#content-eyes");
     const headBounding = contentShape.getBoundingClientRect();
@@ -47,8 +48,8 @@ export const toAccompanyMouse = () => {
     };
 
     const pagePos = {
-      x: e.pageX + minDistance,
-      y: e.pageY + minDistance,
+      x: event.pageX + minDistance,
+      y: event.pageY + minDistance,
       right: window.innerWidth - minDistance,
     };
 

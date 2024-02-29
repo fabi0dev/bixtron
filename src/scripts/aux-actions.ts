@@ -101,7 +101,7 @@ const textInteract = {
     if (toLeft != null) {
       toLeftPos = toLeft ? "left" : "right";
     } else {
-      toLeftPos = pos[fn.randomInt(1, 3) > 1 ? "right" : "left"];
+      toLeftPos = pos[fn.randomInt(1, 3) > 1 ? "right" : "left"].toString();
     }
 
     interact.style.cssText = `left: ${toLeftPos}px; top: ${pos.top}px; `;
@@ -139,6 +139,7 @@ const touchToMouse = (touchEvent: TouchEvent, mouseEvent: string) => {
     return new MouseEvent(mouseEvent, {
       clientX: touch.clientX,
       clientY: touch.clientY,
+      //@ts-ignore
       pageX: touch.pageX,
       pageY: touch.pageY,
     });
