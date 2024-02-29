@@ -2,7 +2,6 @@ import { default as Pages } from "../pages";
 import Home from "../pages/Home";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { store } from "../store/store";
 import Config from "../pages/Config";
 import { useSelector } from "react-redux";
 import { selectorRobot } from "../store/reducers/robot";

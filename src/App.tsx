@@ -1,5 +1,3 @@
-import { useCallback, useEffect } from "react";
-import { shapeReactions } from "./scripts/shape-reactions";
 import "./index.scss";
 import { Provider } from "react-redux";
 import { persistor, store } from "./store/store";

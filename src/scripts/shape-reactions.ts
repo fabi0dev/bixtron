@@ -133,7 +133,8 @@ export const shapeReactions = {
       fromEvent(getElement("#head"), "touchstart")
     )
       .pipe(map((e) => e))
-      .subscribe(function (e: MouseEvent) {
+      .subscribe((event) => {
+        const e = event as MouseEvent;
         initialPos.left = e.clientX;
         initialPos.top = e.clientY;
 
@@ -147,7 +148,8 @@ export const shapeReactions = {
           fromEvent(document, "touchmove").pipe(
             map((e) => touchToMouse(e as TouchEvent, "touchmove"))
           )
-        ).subscribe(function (e: MouseEvent) {
+        ).subscribe((event) => {
+          const e = event as MouseEvent;
           timeToLeft.unsubscribe();
           timeToLeft = of(null)
             .pipe(delay(100))
