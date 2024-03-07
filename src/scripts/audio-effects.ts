@@ -6,7 +6,7 @@ export const audioEffects = {
   initialized: false,
   init: () => {
     if (!audioEffects.initialized) {
-      const audio = new Audio("/src/assets/sound/effects/empty.mp3");
+      const audio = new Audio("/assets/sound/effects/empty.mp3");
       race(
         fromEvent(getElement("#content-robot"), "mousedown"),
         fromEvent(getElement("#content-robot"), "touchstart")
@@ -22,7 +22,7 @@ export const audioEffects = {
     if (id.constructor === Array) {
       id = id[fn.randomInt(0, id.length)];
     }
-    const audio = new Audio(`/src/assets/sound/effects/${id}.mp3`);
+    const audio = new Audio(`/assets/sound/effects/${id}.mp3`);
     if (!randomPlay || (randomPlay && fn.randomInt(0, 2) == 1)) {
       audio.play();
     }
