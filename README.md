@@ -33,3 +33,6 @@ Para personalizar as cores, basta modificar as configurações que estão sempre
 1. Clone o código
 2. Instale as dependências: `npm install` ou `yarn install`
 3. Inicie a aplicação: `npm dev` ou `yarn dev`
+
+### Deploy
+[bixtron.vercel.app](https://bixtron.vercel.app/)
