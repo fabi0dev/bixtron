@@ -15,8 +15,8 @@ function App() {
 
         <div className="fixed bottom-6 right-6">
           <a
-            href="https://fabioalves.site/"
-            title="Desenvolvido por Fábio Alves"
+            href="https://fabiodev.site/"
+            title="Desenvolvido por Fábio Costa"
             target="_blank"
           >
             <Icons.FireIcon className="h-8 w-8 fill-emerald-300 transition-all hover:scale-150 cursor-pointer" />
