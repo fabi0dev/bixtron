@@ -11,12 +11,22 @@ import {
   setConfigured,
   setEye,
   setEyeColor,
+  setEyeStyle,
 } from "../../store/reducers/robot";
 import { audioEffects } from "../../scripts/audio-effects";
 import { delay, of } from "rxjs";
 import { Button } from "../../components";
 import { Compact, Wheel } from "@uiw/react-color";
 import { useNavigate } from "react-router-dom";
+
+const eyeStyles = [
+  { id: "round", name: "Redondo", icon: "●" },
+  { id: "oval", name: "Oval", icon: "⬭" },
+  { id: "square", name: "Quadrado", icon: "■" },
+  { id: "star", name: "Estrela", icon: "★" },
+  { id: "heart", name: "Coração", icon: "♥" },
+  { id: "visor", name: "Visor", icon: "▬" },
+];
 
 export default function Config() {
   const dispatch = useDispatch();
@@ -29,6 +39,7 @@ export default function Config() {
 
   const {
     colors: { body1, body2 },
+    eyeStyle,
   } = useSelector(selectorRobot);
 
   const setColorEyes = (color: string) => {
@@ -62,7 +73,7 @@ export default function Config() {
         true
       );
     }
-  }, [setViewAppearance]);
+  }, [configured]);
 
   useEffect(() => {
     if (!initEvents) {
@@ -86,33 +97,55 @@ export default function Config() {
 
             {/* cor dos olhos */}
             {viewAppearance && configNumber == 1 && (
-              <div id="config-appearance">
-                <div className="font-bold font-sans text-xl">Cor dos Olhos</div>
-                <div className="font-sans text-xs mb-4  ">
-                  Escolhar uma cor que te agrada.
+              <div id="config-appearance" className="config-card">
+                <div className="config-header">
+                  <span className="config-step">1/2</span>
+                  <h2 className="config-title">Cor dos Olhos</h2>
+                  <p className="config-subtitle">Escolha uma cor que te agrada</p>
                 </div>
 
-                <div className="flex justify-center">
+                <div className="color-picker-wrapper">
                   <Wheel
-                    width={150}
-                    height={150}
+                    width={160}
+                    height={160}
                     color={hsva}
                     onChange={(color) => {
                       setColorEyes(color.hex);
                       setHsva({ ...hsva, ...color.hsva });
                     }}
                   />
+                  <div 
+                    className="color-preview"
+                    style={{ backgroundColor: `hsla(${hsva.h}, ${hsva.s}%, ${hsva.v}%, ${hsva.a})` }}
+                  />
                 </div>
 
-                <div className="flex justify-center">
+                <div className="eye-styles-section">
+                  <p className="eye-styles-label">Estilo dos olhos</p>
+                  <div className="eye-styles-grid">
+                    {eyeStyles.map((style) => (
+                      <div
+                        key={style.id}
+                        className={`eye-style-option ${eyeStyle === style.id ? "active" : ""}`}
+                        onClick={() => dispatch(setEyeStyle(style.id))}
+                        title={style.name}
+                      >
+                        <span className="eye-style-icon">{style.icon}</span>
+                        <span className="eye-style-name">{style.name}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="config-actions">
                   <Button
                     onClick={() => {
                       setConfigNumber(2);
                       dispatch(setEye("Happy"));
                     }}
-                    className="mt-5"
+                    className="btn-next"
                   >
-                    {"Cor do corpo >"}
+                    Cor do corpo →
                   </Button>
                 </div>
               </div>
@@ -120,54 +153,56 @@ export default function Config() {
 
             {/* cor do corpo */}
             {viewAppearance && configNumber == 2 && (
-              <div id="config-appearance">
-                <div className="font-bold font-sans text-xl mb-1">
-                  Cor do corpo
+              <div id="config-appearance" className="config-card">
+                <div className="config-header">
+                  <span className="config-step">2/2</span>
+                  <h2 className="config-title">Cor do Corpo</h2>
+                  <p className="config-subtitle">Personalize as cores do robô</p>
                 </div>
-                <div id="content-colors">
-                  <div className="content-colors">
-                    <div className="font-sans text-xs">Predominante</div>
 
+                <div id="content-colors">
+                  <div className="color-section">
+                    <div className="color-label">
+                      <span className="color-dot" style={{ backgroundColor: body1 }} />
+                      Predominante
+                    </div>
                     <Compact
                       color={body1}
-                      style={{
-                        backgroundColor: "transparent",
-                      }}
-                      onChange={(color) => {
-                        dispatch(setBodyColor1(color.hex));
-                      }}
+                      style={{ backgroundColor: "transparent" }}
+                      onChange={(color) => dispatch(setBodyColor1(color.hex))}
                     />
                   </div>
 
-                  <div className="content-colors mb-1">
-                    <div className="font-sans text-xs">Secundária</div>
+                  <div className="color-section">
+                    <div className="color-label">
+                      <span className="color-dot" style={{ backgroundColor: body2 }} />
+                      Secundária
+                    </div>
                     <Compact
                       color={body2}
-                      style={{
-                        backgroundColor: "transparent",
-                      }}
-                      onChange={(color) => {
-                        dispatch(setBodyColor2(color.hex));
-                      }}
+                      style={{ backgroundColor: "transparent" }}
+                      onChange={(color) => dispatch(setBodyColor2(color.hex))}
                     />
                   </div>
                 </div>
 
-                <div className="flex justify-center gap-2">
+                <div className="config-actions dual">
                   <Button
                     onClick={() => setConfigNumber(1)}
-                    className="mt-5"
-                    children="< Cor dos olhos"
-                  />
+                    className="btn-back"
+                  >
+                    ← Voltar
+                  </Button>
 
                   <Button
                     onClick={() => {
                       dispatch(setConfigured(true));
-                      navigate("/");
+                      navigate("/home");
                     }}
-                    className="mt-5 bg-green-600"
-                    children="Salvar"
-                  />
+                    className="btn-save"
+                  >
+                    ✓ Salvar
+                  </Button>
                 </div>
               </div>
             )}

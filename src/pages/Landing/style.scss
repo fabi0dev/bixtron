@@ -1,0 +1,133 @@
+#landing-container {
+  min-height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  position: relative;
+  overflow: hidden;
+
+  .content {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .hero {
+    margin-bottom: 3rem;
+  }
+
+  .title {
+    font-size: 5rem;
+    font-weight: 800;
+    margin-bottom: 1.2rem;
+    letter-spacing: -3px;
+
+    @media (max-width: 640px) {
+      font-size: 3rem;
+      letter-spacing: -2px;
+    }
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #00d9ff 0%, #00ff88 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: 1.4rem;
+    color: rgba(0, 0, 0, 0.7);
+    margin-bottom: 0.6rem;
+    font-weight: 300;
+
+    @media (max-width: 640px) {
+      font-size: 1.1rem;
+    }
+  }
+
+  .description {
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.4rem 3.5rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #050508;
+    background: linear-gradient(135deg, #00d9ff 0%, #00ff88 100%);
+    border: none;
+    border-radius: 60px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      transform: translateY(-3px);
+      opacity: 0.9;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    .button-icon {
+      width: 24px;
+      height: 24px;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover .button-icon {
+      transform: translateX(6px);
+    }
+
+    @media (max-width: 640px) {
+      padding: 1.2rem 2.5rem;
+      font-size: 1.1rem;
+    }
+  }
+
+  .bg-shapes {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .shape {
+    position: absolute;
+    border-radius: 50%;
+  }
+
+  .shape-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0, 217, 255, 0.04) 0%, transparent 70%);
+    top: -200px;
+    left: -150px;
+    filter: blur(80px);
+  }
+
+  .shape-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(0, 255, 136, 0.03) 0%, transparent 70%);
+    bottom: -150px;
+    right: -100px;
+    filter: blur(80px);
+  }
+
+  .shape-3,
+  .shape-4,
+  .shape-5 {
+    display: none;
+  }
+}

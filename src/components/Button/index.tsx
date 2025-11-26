@@ -2,15 +2,10 @@ import { HTMLAttributes } from "react";
 import "./style.scss";
 
 interface IButton extends HTMLAttributes<HTMLButtonElement> {
-  children: string;
-  className: string;
+  children: React.ReactNode;
+  className?: string;
 }
-export const Button = ({ children, className, ...props }: IButton) => {
-  {
-    /* <button bt-default={""} {...props}>
-      {children}
-    </button> */
-  }
+export const Button = ({ children, className = "", ...props }: IButton) => {
   return (
     <button
       type="button"

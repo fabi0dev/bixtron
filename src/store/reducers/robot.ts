@@ -12,8 +12,14 @@ interface IRobot {
     body2: string;
   };
   configured: boolean;
+  santaHat: boolean;
+  snowEffect: boolean;
+  scarf: boolean;
+  eyeStyle: string;
+  thruster: boolean;
 }
-const initialState = {
+
+const initialState: IRobot = {
   body: "Initial",
   heads: "Initial",
   chest: "Initial",
@@ -25,6 +31,11 @@ const initialState = {
     body2: "#000",
   },
   configured: false,
+  santaHat: true,
+  snowEffect: true,
+  scarf: true,
+  eyeStyle: "oval",
+  thruster: false,
 };
 
 export const slice = createSlice({
@@ -76,6 +87,36 @@ export const slice = createSlice({
         configured: payload,
       };
     },
+    setSantaHat: (state, { payload }) => {
+      return {
+        ...state,
+        santaHat: payload,
+      };
+    },
+    setSnowEffect: (state, { payload }) => {
+      return {
+        ...state,
+        snowEffect: payload,
+      };
+    },
+    setScarf: (state, { payload }) => {
+      return {
+        ...state,
+        scarf: payload,
+      };
+    },
+    setEyeStyle: (state, { payload }) => {
+      return {
+        ...state,
+        eyeStyle: payload,
+      };
+    },
+    setThruster: (state, { payload }) => {
+      return {
+        ...state,
+        thruster: payload,
+      };
+    },
     resetRobot: () => {
       return initialState;
     },
@@ -90,6 +131,11 @@ export const {
   setBodyColor1,
   setBodyColor2,
   setConfigured,
+  setSantaHat,
+  setSnowEffect,
+  setScarf,
+  setEyeStyle,
+  setThruster,
 } = slice.actions;
 export default slice.reducer;
 export const selectorRobot = (state: { robot: IRobot }): IRobot => state.robot;

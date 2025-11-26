@@ -7,7 +7,7 @@ import { persistReducer, persistStore } from "redux-persist";
 const currencyPersistConfig = {
   key: "bixtron",
   storage: localforage,
-  safelist: ["robot"],
+  whitelist: ["robot"],
 };
 
 const all = combineReducers({

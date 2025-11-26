@@ -5,4 +5,19 @@
   .eyes{
     transition: all .1s ease-out;
   }
+
+  .visor {
+    animation: visorScan 2s ease-in-out infinite;
+  }
+}
+
+@keyframes visorScan {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+  50% {
+    opacity: 0.6;
+    filter: drop-shadow(0 0 15px currentColor) drop-shadow(0 0 30px currentColor);
+  }
 }

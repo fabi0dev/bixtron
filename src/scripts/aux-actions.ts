@@ -99,9 +99,9 @@ const textInteract = {
     let toLeftPos = "";
 
     if (toLeft != null) {
-      toLeftPos = toLeft ? "left" : "right";
+        toLeftPos = `${toLeft ? pos.left : pos.right}`;
     } else {
-      toLeftPos = pos[fn.randomInt(1, 3) > 1 ? "right" : "left"].toString();
+      toLeftPos = `${fn.randomInt(1, 3) > 1 ? pos.right : pos.left}`;
     }
 
     interact.style.cssText = `left: ${toLeftPos}px; top: ${pos.top}px; `;

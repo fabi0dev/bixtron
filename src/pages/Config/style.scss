@@ -1,65 +1,277 @@
-body{
-  background-color: #eee;
+body {
+  background: #f5f5f7;
+  min-height: 100vh;
   animation: BodyAppearance 1.5s reverse;
 }
-#container-config{
-  /* #robo-container{
-    min-width: 400px;
-  } */
-  #config-appearance{
-    transition: all .5s ease-out;
-    position: relative;
-    animation: AnimConfigAppearance .5s reverse;
-    opacity: 1;
-  }
-  
-  #content-shape{
+
+#container-config {
+  #content-shape {
     position: relative;
     transition: all 1s ease-out;
   }
 
-  
-  @media (min-width: 640px) {
-    #container-colors{
-      display: grid;
-      grid-template-columns: 300px auto;
+  .config-card {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+    padding: 28px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    transition: all 0.2s ease;
+    animation: AnimConfigAppearance 0.5s reverse;
+  }
+
+  .config-header {
+    text-align: center;
+    margin-bottom: 24px;
+
+    .config-step {
+      display: inline-block;
+      background: #f0f0f2;
+      color: #666;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .config-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 6px 0;
+    }
+
+    .config-subtitle {
+      font-size: 0.875rem;
+      color: #888;
+      margin: 0;
     }
   }
+
+  .color-picker-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 12px;
+    margin-bottom: 16px;
+
+    .color-preview {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s ease;
+    }
+  }
+
+  .eye-styles-section {
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 20px;
+
+    .eye-styles-label {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #555;
+      margin: 0 0 12px 0;
+      text-align: center;
+    }
+
+    .eye-styles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .eye-style-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 12px 8px;
+      background: #fff;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        border-color: #ddd;
+      }
+
+      &.active {
+        border-color: #00d9ff;
+        background: rgba(0, 217, 255, 0.05);
+      }
+
+      .eye-style-icon {
+        font-size: 20px;
+        color: #333;
+      }
+
+      .eye-style-name {
+        font-size: 0.7rem;
+        color: #666;
+        font-weight: 500;
+      }
+    }
+  }
+
+  #content-colors {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .color-section {
+    background: #fafafa;
+    border-radius: 12px;
+    padding: 16px;
+
+    .color-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 12px;
+
+      .color-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+        transition: background-color 0.2s ease;
+      }
+    }
+
+    .w-color-compact {
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .config-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 8px;
+
+    &.dual {
+      justify-content: space-between;
+    }
+
+    .btn-next, .btn-save, .btn-back {
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 0.875rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-next {
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+
+      &:hover {
+        background: #333;
+      }
+    }
+
+    .btn-back {
+      background: transparent;
+      color: #666;
+      border: 1px solid #ddd;
+
+      &:hover {
+        background: #f5f5f5;
+        border-color: #ccc;
+      }
+    }
+
+    .btn-save {
+      background: #1a1a1a;
+      color: #fff;
+      border: none;
+
+      &:hover {
+        background: #333;
+      }
+    }
+  }
+
+  @media (min-width: 640px) {
+    #container-colors {
+      display: grid;
+      grid-template-columns: 300px auto;
+      gap: 30px;
+      align-items: center;
+    }
+  }
+
   @media (max-width: 435px) {
-    #content-shape{
+    #content-shape {
       margin-bottom: 10px;
     }
-    #svg-robot{
+
+    #svg-robot {
       width: 200px;
       height: 200px;
       margin: auto;
     }
-    #config-appearance{
-      #content-colors{
-        display: grid;
-        grid-template-columns: auto auto;
 
-        .w-color-compact{
-          width: 150px !important;
+    .config-card {
+      padding: 18px;
+      margin: 0 8px;
+    }
+
+    #content-colors {
+      flex-direction: row;
+      gap: 10px;
+
+      .color-section {
+        flex: 1;
+        padding: 10px;
+
+        .w-color-compact {
+          width: 100% !important;
+          max-width: 150px;
         }
       }
+    }
 
+    .config-actions.dual {
+      flex-direction: column;
+      gap: 8px;
+
+      .btn-back, .btn-save {
+        width: 100%;
+      }
     }
   }
-
 }
 
-
 @keyframes BodyAppearance {
-  100% { 
-    background-color: #000;
+  100% {
+    background: #000;
   }
 }
 
 @keyframes AnimConfigAppearance {
-  100% { 
-    margin-left: -50px; 
-    opacity: 0; 
-    filter: blur(10px); 
+  100% {
+    margin-left: -50px;
+    opacity: 0;
+    filter: blur(10px);
   }
 }

@@ -9,6 +9,9 @@
     right: 2vh;
     top: 17vh;
     animation: MenuAnimate .5s reverse;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     .item{
       transition: all .5s ease-out;
     }
@@ -16,6 +19,217 @@
       scale: 120%;
       cursor: pointer;
     }
+  }
+
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    animation: fadeIn 0.2s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal-content {
+    background: #fff;
+    border-radius: 20px;
+    padding: 0;
+    width: 450px;
+    max-width: 90vw;
+    max-height: 80vh;
+    border: none;
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  }
+
+  @keyframes slideUp {
+    from { 
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .modal-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+    .header-icon {
+      width: 24px;
+      height: 24px;
+      color: #00d9ff;
+    }
+
+    h2 {
+      color: #1a1a1a;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0;
+      flex: 1;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .modal-close {
+      background: rgba(0, 0, 0, 0.05);
+      border: none;
+      color: rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: all 0.2s;
+      display: flex;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.1);
+        color: #1a1a1a;
+      }
+    }
+  }
+
+  .modal-body {
+    padding: 1.25rem;
+    overflow-y: auto;
+    max-height: calc(80vh - 70px);
+
+    .section-title {
+      color: #666;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0 0 1rem 0;
+      font-family: system-ui, -apple-system, sans-serif;
+
+      &:not(:first-child) {
+        margin-top: 1.5rem;
+      }
+    }
+
+    .accessories-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .accessory-card {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: #f8f9fa;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        background: #f0f1f2;
+        border-color: rgba(0, 0, 0, 0.12);
+      }
+
+      &.active {
+        background: rgba(0, 217, 255, 0.1);
+        border-color: rgba(0, 217, 255, 0.4);
+      }
+
+      .accessory-image {
+        width: 56px;
+        height: 56px;
+        background: #fff;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+        img {
+          width: 44px;
+          height: 44px;
+          object-fit: contain;
+        }
+      }
+
+      .accessory-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.2rem;
+
+        .accessory-name {
+          color: #1a1a1a;
+          font-size: 0.95rem;
+          font-weight: 600;
+          font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        .accessory-desc {
+          color: #888;
+          font-size: 0.8rem;
+          font-family: system-ui, -apple-system, sans-serif;
+        }
+      }
+
+      .accessory-toggle {
+        width: 44px;
+        height: 26px;
+        background: #ddd;
+        border-radius: 13px;
+        padding: 3px;
+        transition: background 0.2s;
+        flex-shrink: 0;
+
+        &.on {
+          background: #00d9ff;
+
+          .toggle-dot {
+            transform: translateX(18px);
+          }
+        }
+
+        .toggle-dot {
+          width: 20px;
+          height: 20px;
+          background: #fff;
+          border-radius: 50%;
+          transition: transform 0.2s;
+          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+        }
+      }
+
+      .effect-icon {
+        color: #00d9ff;
+      }
+    }
+  }
+
+  .snow-container {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 10;
+  }
+
+  .snowflake {
+    position: fixed;
+    color: #fff;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
   }
 }
 

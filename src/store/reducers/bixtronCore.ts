@@ -6,7 +6,8 @@ interface IBixtronCore {
   isFalling: boolean;
   isHigh: boolean;
 }
-const initialState = {
+
+const initialState: IBixtronCore = {
   isAfraid: false, //está bravo
   isHappy: true, //está feliz
   isFalling: false, //está caindo
