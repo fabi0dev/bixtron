@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="body" x2="1" y2="1">
+      <stop offset="40%" stop-color="#1D2123"/>
+      <stop offset="100%" stop-color="#000"/>
+    </linearGradient>
+  </defs>
+  <!-- Cabeça -->
+  <ellipse cx="16" cy="10" rx="10" ry="8" fill="url(#body)"/>
+  <!-- Corpo -->
+  <ellipse cx="16" cy="22" rx="8" ry="9" fill="url(#body)"/>
+  <!-- Olhos -->
+  <ellipse cx="13" cy="10" rx="2" ry="2.5" fill="#00dcff"/>
+  <ellipse cx="19" cy="10" rx="2" ry="2.5" fill="#00dcff"/>
+</svg>

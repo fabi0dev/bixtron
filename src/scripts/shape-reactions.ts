@@ -1,4 +1,4 @@
-import { delay, fromEvent, map, merge, of, race, throttleTime } from "rxjs";
+import { delay, fromEvent, map, merge, of, throttleTime } from "rxjs";
 import { bixtronConfig } from "../bixtronconfig";
 import { execRandom } from "../helpers/functions";
 import {
@@ -127,7 +127,6 @@ export const shapeReactions = {
     const initialPos = { left: 0, top: 0 };
     let lastTopPos = 0;
     let lastLeftPos = 0;
-    let prevMouseX = 0;
     let timeToLeft = of(null).pipe(delay(100)).subscribe();
 
     const SMOOTHING = 0.15;
@@ -162,7 +161,6 @@ export const shapeReactions = {
       const e = event as MouseEvent;
       initialPos.left = e.clientX;
       initialPos.top = e.clientY;
-      prevMouseX = e.clientX;
 
       currentPos.left = contentShape.offsetLeft;
       currentPos.top = contentShape.offsetTop;
@@ -254,8 +252,6 @@ export const shapeReactions = {
 
         targetPos.left = newLeft;
         targetPos.top = newTop;
-
-        prevMouseX = e.clientX;
       });
 
       const closeDrag = merge(
